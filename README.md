@@ -25,6 +25,8 @@ THIS IS WORK-IN-PROGRESS AT AN EARLY STATE.
 
 ## TL;DR
 
+### Compiling
+
 Linux and Go v1.24+ is required to compile and run the code.
 
     git clone https://github.com/bfix/antgen
@@ -40,10 +42,61 @@ If successful, four executables are generated:
 * `replay`: Visualize computed optimization steps/solutions
 * `convert`: Convert antenna geometries to SVG for printing
 
-The `scripts/` directory contains some helper scripts:
+### Running
+
+To check if the executables work, perform the following steps:
+
+1. Create an optimized antenna:
+
+```bash
+  ./antgen -freq 430M-440M -k 0.685 -param 120 \
+      -wire 0.002:5.960e+07:2.274e-07 \
+      -model bend2d -gen v:ang=120 -opt Gmax=matched \
+      -tag 120-685 -log -vis -out /tmp
+```
+
+You will see the initial geometry in a new window; press `Enter` to
+start the optimization. You can pause/resume the optimization with the
+`Enter` key; pressing `Space` while the optimization is stopped moves
+one iteration forwards.
+
+2. Replay the optimization
+
+```bash
+  ./replay -mode track -eval 435M -in /tmp/track-120-685.json
+```
+
+The same visualization as during optimization is displayed. Use the same keys
+as described before to start/stop the replay (`Enter`) or move one iteration
+forward (`Enter`) while stopped.
+
+3. Convert the antenna geometry to SVG for printing
+
+In order to build an optimized antenna, you will need to print the antenna
+geometry from an SVG file.
+
+```bash
+  ./convert -mode svg -in /tmp/geometry-120-685.json -out /tmp/build.svg
+```
+
+The generated SVG file only contains one leg of the dipole; you need to mirror
+the path to create the second leg manually.
+
+### Useful helper scripts
+
+The main directory contains `mk`, a script to build all executables.
+
+The `scripts/` directory contains some additional helper scripts:
 
 * `runOpts.sh`: Run optimizations for a given set of parameters (frequency,
 antenna wire, ...).
+
+      scripts/runOpts.sh <band> [<dia> [<mat> [<seed>]]]
+
+  * `band`: frequency band [2m]/70cm/35cm
+  * `dia`: wire diameter [0.002]
+  * `mat`: wire material [CuL]/Cu/Al
+  * `seed`: randomization seed [1000]
 
   Optimizations are stored in (sub-)directories corresponding to their
   parameters; all models in a directory belong to the same *model set*.
@@ -138,7 +191,7 @@ plotting) makes use of this approach. So it is possible to do a graph plot
 
 ### `antgen`
 
-Optimize a dipole for a given frequency ('-freq'); if a frequency range is
+Optimize a dipole for a given frequency (`-freq`); if a frequency range is
 specified, optimize for the center frequency. The range info (if available)
 is used to generate a matching "FR" card for NEC2.
 
@@ -146,23 +199,23 @@ is used to generate a matching "FR" card for NEC2.
     |<--   kλ    -->|<--    kλ   -->|          |
                     ^- Excitation            Y x--> X
 
-The antenna is made out of a wire with specific properties ('-wire') and is
-possibly mounted over ground ('-ground'). The half-length of the dipole is
-specified as a fraction ('-k') of the wavelength of the (center) frequency.
-The dipole is center-fed from a source ('-source') with defined impedance
+The antenna is made out of a wire with specific properties (`-wire`) and is
+possibly mounted over ground (`-ground`). The half-length of the dipole is
+specified as a fraction (`-k`) of the wavelength of the (center) frequency.
+The dipole is center-fed from a source (`-source`) with defined impedance
 and output power.
 
 The initial (pre-optimization) geometry of the antenna is assembled by a
-generator ('-gen'); a generator can be volatile (meaning the geometry is
-based on some kind of seeded randomization '-seed') or static (like a
+generator (`-gen`); a generator can be volatile (meaning the geometry is
+based on some kind of seeded randomization `-seed`) or static (like a
 straight line or a V-shaped dipole). The generator creates only one half
 of the dipole; the other half is mirrored on the YZ plane.
 
 The initial geometry is optimized by an optimization model for the
-specified target ('-opt') using an optimization model ('-model').
+specified target (`-opt`) using an optimization model (`-model`).
 
 The optimization algorithm (depending on the parameters and flags specified)
-outputs multiple files in the output directory ('-out'):
+outputs multiple files in the output directory (`-out`):
 
 * `[<prefix>_]geometry-<tag>.json`: Antenna geometry (internal format)
 * `[<prefix>_]model-<tag>.nec`: NEC2-compatible card deck for the antenna
@@ -259,7 +312,7 @@ The following keys are defined:
 
 * `-vis`: Visualize iterations (default: false)
 
-* `-log`: Log iterations in step file (default: 0)
+* `-log`: Log iterations in step file (default: false)
 
 * `-warn`: Emit warnings (default: false)
 
@@ -270,7 +323,7 @@ To find "good" optimizations a lot of parameter combinations need to be tried
 
 Manages a SQLite3 database of the metadata of optimized antennas.
 
-    tabula -db <database> <command> <options>
+    tabula -db <database> -in <base directory> <command> <options>
 
 #### Options
 
@@ -298,11 +351,17 @@ Run a plot server that can be used with a browser.
 * `-l`: Listen address for web GUI (default: "localhost:12345")
 * `-p`: Prefix for URLs
 
+In a browser open the URL `http://localhost:12345` and you will see the
+plotting user interface. Select a target value to plot and one or more
+model sets (Directories):
+
+![XY plot](docs/images/plot-1.png)
+
 ##### `plot-file`
 
 Generate a plot for a given set and save it to SVG file.
 
-#### Options
+###### Options
 
 * `-target`: Plot target (default: "Gmax")
 * `-sets`: Sets to plot (comma-separated list). A set is a `<tag>:<directory>`
@@ -313,7 +372,7 @@ combination where the directory is relative to the model base directory.
 
 Show the best optimizations for a given target in a band.
 
-#### Options
+###### Options
 
 * `-target`: Optimization target (default: "Gmax")
 * `-in`: Base models directory (default: ./out)

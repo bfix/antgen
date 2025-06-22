@@ -6,3 +6,4 @@
 /cmd/antgen/_version
 /out/
 /.vscode/
+/.markdownlint.json

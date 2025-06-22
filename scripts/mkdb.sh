@@ -26,7 +26,9 @@ SET=""
 
 if [ "$1" = "clean" ]; then
     rm -f ${OUT}/results.db
-elif [ -n "$1" ]; then
+    exit $?
+fi
+if [ -n "$1" ]; then
     SET="-set $1"
 fi
-${BIN}/tabula -db ${OUT}/results.db import -in ${OUT} ${SET}
+${BIN}/tabula -db ${OUT}/results.db -in ${OUT} import ${SET}

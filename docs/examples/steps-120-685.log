@@ -1,0 +1,382 @@
+[    1] Gain={Max: 5.50703 dB, Mean: -0.98799±3.10513 dB}, Impedance=89.417 + j·95.265 Ω
+[    2] Gain={Max: 5.37098 dB, Mean: -0.98499±3.14228 dB}, Impedance=91.166 + j·91.222 Ω
+[    3] Gain={Max: 5.46280 dB, Mean: -0.98522±3.11215 dB}, Impedance=90.060 + j·93.681 Ω
+[    4] Gain={Max: 5.46864 dB, Mean: -0.98537±3.11000 dB}, Impedance=90.095 + j·93.768 Ω
+[    5] Gain={Max: 5.55640 dB, Mean: -0.98949±3.07815 dB}, Impedance=90.513 + j·94.937 Ω
+[    6] Gain={Max: 5.59215 dB, Mean: -0.99246±3.06571 dB}, Impedance=90.603 + j·95.317 Ω
+[    7] Gain={Max: 5.63334 dB, Mean: -1.00031±3.06398 dB}, Impedance=90.503 + j·96.415 Ω
+[    8] Gain={Max: 5.58351 dB, Mean: -0.99366±3.07378 dB}, Impedance=92.444 + j·93.170 Ω
+[    9] Gain={Max: 5.45292 dB, Mean: -1.01834±3.21345 dB}, Impedance=96.761 + j·88.912 Ω
+[   10] Gain={Max: 5.43503 dB, Mean: -1.07721±3.39719 dB}, Impedance=99.572 + j·85.626 Ω
+[   11] Gain={Max: 5.50850 dB, Mean: -1.08688±3.39432 dB}, Impedance=99.340 + j·86.007 Ω
+[   12] Gain={Max: 5.77566 dB, Mean: -1.12727±3.36657 dB}, Impedance=97.681 + j·88.566 Ω
+[   13] Gain={Max: 5.84514 dB, Mean: -1.12969±3.32971 dB}, Impedance=96.333 + j·89.452 Ω
+[   14] Gain={Max: 5.88557 dB, Mean: -1.13467±3.31545 dB}, Impedance=96.209 + j·89.718 Ω
+[   15] Gain={Max: 6.03097 dB, Mean: -1.15821±3.26855 dB}, Impedance=95.382 + j·91.240 Ω
+[   16] Gain={Max: 6.01584 dB, Mean: -1.17380±3.32236 dB}, Impedance=96.445 + j·90.748 Ω
+[   17] Gain={Max: 6.05933 dB, Mean: -1.18071±3.30209 dB}, Impedance=96.098 + j·90.878 Ω
+[   18] Gain={Max: 6.08570 dB, Mean: -1.18595±3.29263 dB}, Impedance=95.883 + j·91.119 Ω
+[   19] Gain={Max: 6.18878 dB, Mean: -1.20929±3.25504 dB}, Impedance=94.801 + j·91.924 Ω
+[   20] Gain={Max: 6.24177 dB, Mean: -1.22460±3.24010 dB}, Impedance=94.149 + j·92.527 Ω
+[   21] Gain={Max: 6.20837 dB, Mean: -1.24239±3.31506 dB}, Impedance=96.118 + j·91.660 Ω
+[   22] Gain={Max: 6.20886 dB, Mean: -1.24250±3.31477 dB}, Impedance=96.101 + j·91.617 Ω
+[   23] Gain={Max: 6.20890 dB, Mean: -1.24250±3.31474 dB}, Impedance=96.097 + j·91.605 Ω
+[   24] Gain={Max: 6.20910 dB, Mean: -1.24248±3.31456 dB}, Impedance=96.068 + j·91.500 Ω
+[   25] Gain={Max: 6.20919 dB, Mean: -1.24238±3.31437 dB}, Impedance=96.021 + j·91.317 Ω
+[   26] Gain={Max: 6.23957 dB, Mean: -1.25056±3.29905 dB}, Impedance=95.361 + j·91.182 Ω
+[   27] Gain={Max: 6.24230 dB, Mean: -1.25135±3.29766 dB}, Impedance=95.289 + j·91.157 Ω
+[   28] Gain={Max: 6.23552 dB, Mean: -1.26428±3.33635 dB}, Impedance=95.971 + j·90.937 Ω
+[   29] Gain={Max: 6.18958 dB, Mean: -1.32055±3.53078 dB}, Impedance=98.504 + j·90.258 Ω
+[   30] Gain={Max: 6.16778 dB, Mean: -1.35471±3.65924 dB}, Impedance=99.242 + j·89.717 Ω
+[   31] Gain={Max: 6.29640 dB, Mean: -1.39616±3.59519 dB}, Impedance=97.877 + j·90.539 Ω
+[   32] Gain={Max: 6.30097 dB, Mean: -1.39789±3.59267 dB}, Impedance=97.788 + j·90.525 Ω
+[   33] Gain={Max: 6.34638 dB, Mean: -1.41488±3.57458 dB}, Impedance=97.230 + j·90.797 Ω
+[   34] Gain={Max: 6.38773 dB, Mean: -1.43143±3.55938 dB}, Impedance=96.673 + j·91.026 Ω
+[   35] Gain={Max: 6.40142 dB, Mean: -1.43717±3.55463 dB}, Impedance=96.477 + j·91.097 Ω
+[   36] Gain={Max: 6.52101 dB, Mean: -1.49666±3.52325 dB}, Impedance=94.350 + j·91.541 Ω
+[   37] Gain={Max: 6.54272 dB, Mean: -1.51063±3.52146 dB}, Impedance=93.827 + j·91.560 Ω
+[   38] Gain={Max: 6.54337 dB, Mean: -1.51143±3.52149 dB}, Impedance=93.771 + j·91.529 Ω
+[   39] Gain={Max: 6.56280 dB, Mean: -1.52038±3.51753 dB}, Impedance=93.298 + j·91.843 Ω
+[   40] Gain={Max: 6.56224 dB, Mean: -1.53189±3.53972 dB}, Impedance=93.728 + j·91.777 Ω
+[   41] Gain={Max: 6.53797 dB, Mean: -1.57878±3.65276 dB}, Impedance=95.714 + j·91.550 Ω
+[   42] Gain={Max: 6.56528 dB, Mean: -1.59637±3.64922 dB}, Impedance=95.166 + j·91.597 Ω
+[   43] Gain={Max: 6.58673 dB, Mean: -1.61148±3.64780 dB}, Impedance=94.684 + j·91.611 Ω
+[   44] Gain={Max: 6.62284 dB, Mean: -1.64108±3.65055 dB}, Impedance=93.711 + j·91.561 Ω
+[   45] Gain={Max: 6.66407 dB, Mean: -1.69273±3.67874 dB}, Impedance=91.919 + j·91.182 Ω
+[   46] Gain={Max: 6.65261 dB, Mean: -1.67759±3.66704 dB}, Impedance=92.355 + j·90.987 Ω
+[   47] Gain={Max: 6.57851 dB, Mean: -1.70449±3.78220 dB}, Impedance=95.779 + j·90.717 Ω
+[   48] Gain={Max: 6.64636 dB, Mean: -1.68458±3.68274 dB}, Impedance=92.964 + j·90.930 Ω
+[   49] Gain={Max: 6.57216 dB, Mean: -1.78086±3.92180 dB}, Impedance=96.894 + j·90.951 Ω
+[   50] Gain={Max: 6.65757 dB, Mean: -1.86342±3.92417 dB}, Impedance=94.562 + j·90.098 Ω
+[   51] Gain={Max: 6.68438 dB, Mean: -1.86100±3.89326 dB}, Impedance=93.602 + j·90.068 Ω
+[   52] Gain={Max: 6.69130 dB, Mean: -1.87121±3.89746 dB}, Impedance=93.281 + j·89.910 Ω
+[   53] Gain={Max: 6.68990 dB, Mean: -1.86493±3.89369 dB}, Impedance=93.521 + j·89.909 Ω
+[   54] Gain={Max: 6.68982 dB, Mean: -1.86443±3.89334 dB}, Impedance=93.545 + j·89.927 Ω
+[   55] Gain={Max: 6.69551 dB, Mean: -1.87217±3.89655 dB}, Impedance=93.330 + j·89.867 Ω
+[   56] Gain={Max: 6.69001 dB, Mean: -1.94828±4.02123 dB}, Impedance=94.170 + j·89.498 Ω
+[   57] Gain={Max: 6.69941 dB, Mean: -1.96698±4.02706 dB}, Impedance=93.545 + j·89.243 Ω
+[   58] Gain={Max: 6.69895 dB, Mean: -1.96530±4.02624 dB}, Impedance=93.595 + j·89.228 Ω
+[   59] Gain={Max: 6.70577 dB, Mean: -1.98041±4.03220 dB}, Impedance=93.101 + j·89.030 Ω
+[   60] Gain={Max: 6.70599 dB, Mean: -1.98284±4.03390 dB}, Impedance=92.985 + j·88.924 Ω
+[   61] Gain={Max: 6.70600 dB, Mean: -1.98296±4.03399 dB}, Impedance=92.978 + j·88.915 Ω
+[   62] Gain={Max: 6.70597 dB, Mean: -1.98500±4.03554 dB}, Impedance=92.831 + j·88.692 Ω
+[   63] Gain={Max: 6.74068 dB, Mean: -2.00397±4.03013 dB}, Impedance=91.590 + j·88.825 Ω
+[   64] Gain={Max: 6.74120 dB, Mean: -1.99906±4.02531 dB}, Impedance=91.755 + j·88.778 Ω
+[   65] Gain={Max: 6.70715 dB, Mean: -2.10061±4.19845 dB}, Impedance=94.148 + j·89.146 Ω
+[   66] Gain={Max: 6.70385 dB, Mean: -2.08947±4.19390 dB}, Impedance=94.484 + j·89.203 Ω
+[   67] Gain={Max: 6.72911 dB, Mean: -2.15175±4.22097 dB}, Impedance=92.794 + j·88.273 Ω
+[   68] Gain={Max: 6.73505 dB, Mean: -2.17816±4.23801 dB}, Impedance=92.007 + j·87.766 Ω
+[   69] Gain={Max: 6.73234 dB, Mean: -2.15766±4.22409 dB}, Impedance=92.681 + j·88.141 Ω
+[   70] Gain={Max: 6.71581 dB, Mean: -2.10307±4.19778 dB}, Impedance=94.280 + j·88.853 Ω
+[   71] Gain={Max: 6.73763 dB, Mean: -2.05058±4.10159 dB}, Impedance=93.094 + j·88.632 Ω
+[   72] Gain={Max: 6.72019 dB, Mean: -2.09538±4.18228 dB}, Impedance=94.092 + j·88.813 Ω
+[   73] Gain={Max: 6.71675 dB, Mean: -2.08442±4.17748 dB}, Impedance=94.263 + j·88.522 Ω
+[   74] Gain={Max: 6.71166 dB, Mean: -2.07165±4.17275 dB}, Impedance=94.358 + j·87.990 Ω
+[   75] Gain={Max: 6.71185 dB, Mean: -2.07221±4.17296 dB}, Impedance=94.332 + j·87.936 Ω
+[   76] Gain={Max: 6.71208 dB, Mean: -2.07299±4.17325 dB}, Impedance=94.290 + j·87.845 Ω
+[   77] Gain={Max: 6.71089 dB, Mean: -2.07021±4.17228 dB}, Impedance=94.312 + j·87.754 Ω
+[   78] Gain={Max: 6.70656 dB, Mean: -2.06114±4.16937 dB}, Impedance=94.327 + j·87.342 Ω
+[   79] Gain={Max: 6.69688 dB, Mean: -2.04352±4.16526 dB}, Impedance=94.410 + j·86.743 Ω
+[   80] Gain={Max: 6.68874 dB, Mean: -2.03057±4.16297 dB}, Impedance=94.389 + j·86.166 Ω
+[   81] Gain={Max: 6.72848 dB, Mean: -2.09415±4.17711 dB}, Impedance=92.876 + j·85.339 Ω
+[   82] Gain={Max: 6.74752 dB, Mean: -2.13847±4.19667 dB}, Impedance=91.710 + j·84.574 Ω
+[   83] Gain={Max: 6.71782 dB, Mean: -2.24389±4.37543 dB}, Impedance=92.930 + j·84.362 Ω
+[   84] Gain={Max: 6.78209 dB, Mean: -2.18558±4.23805 dB}, Impedance=90.033 + j·83.447 Ω
+[   85] Gain={Max: 6.77433 dB, Mean: -2.13847±4.20569 dB}, Impedance=91.333 + j·84.204 Ω
+[   86] Gain={Max: 6.77702 dB, Mean: -2.14840±4.21122 dB}, Impedance=91.077 + j·84.071 Ω
+[   87] Gain={Max: 6.77716 dB, Mean: -2.14945±4.21196 dB}, Impedance=91.045 + j·83.974 Ω
+[   88] Gain={Max: 6.77667 dB, Mean: -2.14675±4.21035 dB}, Impedance=91.112 + j·84.006 Ω
+[   89] Gain={Max: 6.77629 dB, Mean: -2.14488±4.20925 dB}, Impedance=91.140 + j·83.997 Ω
+[   90] Gain={Max: 6.77478 dB, Mean: -2.13904±4.20592 dB}, Impedance=91.161 + j·83.811 Ω
+[   91] Gain={Max: 6.77076 dB, Mean: -2.12498±4.19919 dB}, Impedance=91.471 + j·83.910 Ω
+[   92] Gain={Max: 6.76981 dB, Mean: -2.12272±4.19811 dB}, Impedance=91.440 + j·83.798 Ω
+[   93] Gain={Max: 6.77117 dB, Mean: -2.12672±4.19984 dB}, Impedance=91.342 + j·83.743 Ω
+[   94] Gain={Max: 6.78143 dB, Mean: -2.13992±4.20470 dB}, Impedance=91.105 + j·83.838 Ω
+[   95] Gain={Max: 6.78578 dB, Mean: -2.13664±4.19639 dB}, Impedance=90.870 + j·83.795 Ω
+[   96] Gain={Max: 6.76954 dB, Mean: -2.23082±4.34505 dB}, Impedance=91.823 + j·83.506 Ω
+[   97] Gain={Max: 6.78873 dB, Mean: -2.31374±4.39311 dB}, Impedance=89.753 + j·81.776 Ω
+[   98] Gain={Max: 6.78739 dB, Mean: -2.32585±4.40983 dB}, Impedance=89.863 + j·81.749 Ω
+[   99] Gain={Max: 6.78701 dB, Mean: -2.31474±4.40156 dB}, Impedance=90.083 + j·81.833 Ω
+[  100] Gain={Max: 6.79007 dB, Mean: -2.31431±4.39843 dB}, Impedance=89.943 + j·81.799 Ω
+[  101] Gain={Max: 6.78970 dB, Mean: -2.30791±4.39380 dB}, Impedance=90.058 + j·81.830 Ω
+[  102] Gain={Max: 6.78950 dB, Mean: -2.30564±4.39223 dB}, Impedance=90.097 + j·81.837 Ω
+[  103] Gain={Max: 6.78937 dB, Mean: -2.30424±4.39127 dB}, Impedance=90.120 + j·81.841 Ω
+[  104] Gain={Max: 6.78946 dB, Mean: -2.30501±4.39185 dB}, Impedance=90.106 + j·81.768 Ω
+[  105] Gain={Max: 6.78947 dB, Mean: -2.30561±4.39232 dB}, Impedance=90.078 + j·81.656 Ω
+[  106] Gain={Max: 6.79006 dB, Mean: -2.30973±4.39520 dB}, Impedance=89.973 + j·81.564 Ω
+[  107] Gain={Max: 6.79043 dB, Mean: -2.35650±4.43611 dB}, Impedance=88.677 + j·80.344 Ω
+[  108] Gain={Max: 6.78888 dB, Mean: -2.28989±4.38265 dB}, Impedance=90.266 + j·81.263 Ω
+[  109] Gain={Max: 6.80715 dB, Mean: -2.26564±4.33786 dB}, Impedance=89.111 + j·80.904 Ω
+[  110] Gain={Max: 6.80691 dB, Mean: -2.25528±4.32912 dB}, Impedance=89.371 + j·81.078 Ω
+[  111] Gain={Max: 6.80474 dB, Mean: -2.23642±4.31539 dB}, Impedance=89.815 + j·81.352 Ω
+[  112] Gain={Max: 6.80882 dB, Mean: -2.25242±4.32739 dB}, Impedance=89.509 + j·81.147 Ω
+[  113] Gain={Max: 6.80538 dB, Mean: -2.23172±4.31311 dB}, Impedance=89.524 + j·80.699 Ω
+[  114] Gain={Max: 6.80267 dB, Mean: -2.22214±4.30763 dB}, Impedance=89.479 + j·80.408 Ω
+[  115] Gain={Max: 6.81648 dB, Mean: -2.28413±4.35979 dB}, Impedance=88.421 + j·79.928 Ω
+[  116] Gain={Max: 6.81582 dB, Mean: -2.28631±4.36194 dB}, Impedance=88.530 + j·79.951 Ω
+[  117] Gain={Max: 6.80827 dB, Mean: -2.29692±4.37733 dB}, Impedance=89.190 + j·80.090 Ω
+[  118] Gain={Max: 6.79100 dB, Mean: -2.22744±4.33815 dB}, Impedance=90.290 + j·80.347 Ω
+[  119] Gain={Max: 6.79695 dB, Mean: -2.22459±4.32785 dB}, Impedance=90.050 + j·80.283 Ω
+[  120] Gain={Max: 6.80173 dB, Mean: -2.22868±4.32754 dB}, Impedance=89.927 + j·80.297 Ω
+[  121] Gain={Max: 6.81003 dB, Mean: -2.23440±4.32577 dB}, Impedance=89.672 + j·80.310 Ω
+[  122] Gain={Max: 6.82201 dB, Mean: -2.28692±4.36688 dB}, Impedance=88.652 + j·79.495 Ω
+[  123] Gain={Max: 6.82207 dB, Mean: -2.29183±4.37205 dB}, Impedance=88.536 + j·79.376 Ω
+[  124] Gain={Max: 6.82180 dB, Mean: -2.28953±4.36967 dB}, Impedance=88.410 + j·79.071 Ω
+[  125] Gain={Max: 6.82146 dB, Mean: -2.28738±4.36751 dB}, Impedance=88.284 + j·78.763 Ω
+[  126] Gain={Max: 6.82057 dB, Mean: -2.28306±4.36334 dB}, Impedance=88.009 + j·78.089 Ω
+[  127] Gain={Max: 6.81542 dB, Mean: -2.24670±4.33639 dB}, Impedance=88.392 + j·78.185 Ω
+[  128] Gain={Max: 6.81546 dB, Mean: -2.24677±4.33643 dB}, Impedance=88.392 + j·78.172 Ω
+[  129] Gain={Max: 6.81741 dB, Mean: -2.25494±4.34190 dB}, Impedance=88.215 + j·77.999 Ω
+[  130] Gain={Max: 6.81872 dB, Mean: -2.31181±4.39693 dB}, Impedance=86.819 + j·76.481 Ω
+[  131] Gain={Max: 6.81879 dB, Mean: -2.31068±4.39544 dB}, Impedance=86.756 + j·76.333 Ω
+[  132] Gain={Max: 6.80904 dB, Mean: -2.46802±4.59714 dB}, Impedance=88.069 + j·76.018 Ω
+[  133] Gain={Max: 6.80828 dB, Mean: -2.46554±4.59554 dB}, Impedance=87.980 + j·75.808 Ω
+[  134] Gain={Max: 6.80698 dB, Mean: -2.46147±4.59299 dB}, Impedance=87.830 + j·75.457 Ω
+[  135] Gain={Max: 6.80973 dB, Mean: -2.50346±4.62566 dB}, Impedance=86.985 + j·74.460 Ω
+[  136] Gain={Max: 6.80856 dB, Mean: -2.51739±4.63931 dB}, Impedance=86.669 + j·74.066 Ω
+[  137] Gain={Max: 6.79837 dB, Mean: -2.58470±4.72951 dB}, Impedance=87.232 + j·73.998 Ω
+[  138] Gain={Max: 6.79388 dB, Mean: -2.55854±4.71110 dB}, Impedance=86.774 + j·72.954 Ω
+[  139] Gain={Max: 6.78797 dB, Mean: -2.53748±4.69870 dB}, Impedance=86.342 + j·71.995 Ω
+[  140] Gain={Max: 6.79769 dB, Mean: -2.60885±4.75474 dB}, Impedance=85.305 + j·70.823 Ω
+[  141] Gain={Max: 6.79675 dB, Mean: -2.60542±4.75157 dB}, Impedance=85.065 + j·70.399 Ω
+[  142] Gain={Max: 6.78953 dB, Mean: -2.64443±4.79583 dB}, Impedance=84.203 + j·69.213 Ω
+[  143] Gain={Max: 6.79028 dB, Mean: -2.64219±4.79287 dB}, Impedance=84.240 + j·69.246 Ω
+[  144] Gain={Max: 6.78654 dB, Mean: -2.62448±4.77035 dB}, Impedance=84.522 + j·69.177 Ω
+[  145] Gain={Max: 6.78491 dB, Mean: -2.60885±4.75661 dB}, Impedance=84.080 + j·68.222 Ω
+[  146] Gain={Max: 6.79141 dB, Mean: -2.57943±4.71588 dB}, Impedance=83.735 + j·68.135 Ω
+[  147] Gain={Max: 6.79096 dB, Mean: -2.59766±4.73572 dB}, Impedance=83.477 + j·67.891 Ω
+[  148] Gain={Max: 6.78931 dB, Mean: -2.61112±4.75276 dB}, Impedance=83.584 + j·67.883 Ω
+[  149] Gain={Max: 6.76575 dB, Mean: -2.66896±4.83944 dB}, Impedance=82.082 + j·65.682 Ω
+[  150] Gain={Max: 6.77306 dB, Mean: -2.65899±4.81970 dB}, Impedance=82.397 + j·66.167 Ω
+[  151] Gain={Max: 6.77709 dB, Mean: -2.64707±4.79573 dB}, Impedance=82.527 + j·66.114 Ω
+[  152] Gain={Max: 6.77575 dB, Mean: -2.63369±4.77516 dB}, Impedance=82.744 + j·66.044 Ω
+[  153] Gain={Max: 6.77644 dB, Mean: -2.60226±4.74513 dB}, Impedance=82.578 + j·65.529 Ω
+[  154] Gain={Max: 6.77412 dB, Mean: -2.58138±4.72877 dB}, Impedance=82.429 + j·65.125 Ω
+[  155] Gain={Max: 6.76938 dB, Mean: -2.55730±4.71248 dB}, Impedance=82.230 + j·64.612 Ω
+[  156] Gain={Max: 6.77162 dB, Mean: -2.63645±4.78035 dB}, Impedance=80.691 + j·62.401 Ω
+[  157] Gain={Max: 6.77034 dB, Mean: -2.64387±4.78890 dB}, Impedance=80.523 + j·62.145 Ω
+[  158] Gain={Max: 6.76053 dB, Mean: -2.67471±4.83122 dB}, Impedance=79.747 + j·60.928 Ω
+[  159] Gain={Max: 6.77260 dB, Mean: -2.60762±4.75333 dB}, Impedance=80.213 + j·60.839 Ω
+[  160] Gain={Max: 6.78501 dB, Mean: -2.54518±4.67238 dB}, Impedance=79.304 + j·60.461 Ω
+[  161] Gain={Max: 6.78492 dB, Mean: -2.51996±4.64569 dB}, Impedance=78.904 + j·59.590 Ω
+[  162] Gain={Max: 6.78175 dB, Mean: -2.49755±4.62622 dB}, Impedance=78.536 + j·58.789 Ω
+[  163] Gain={Max: 6.78467 dB, Mean: -2.50108±4.62820 dB}, Impedance=78.433 + j·58.787 Ω
+[  164] Gain={Max: 6.78138 dB, Mean: -2.49147±4.62009 dB}, Impedance=77.938 + j·57.850 Ω
+[  165] Gain={Max: 6.78173 dB, Mean: -2.49212±4.62058 dB}, Impedance=77.965 + j·57.768 Ω
+[  166] Gain={Max: 6.78496 dB, Mean: -2.47802±4.60059 dB}, Impedance=77.761 + j·57.701 Ω
+[  167] Gain={Max: 6.78735 dB, Mean: -2.46521±4.58321 dB}, Impedance=77.583 + j·57.644 Ω
+[  168] Gain={Max: 6.77932 dB, Mean: -2.43724±4.55987 dB}, Impedance=76.639 + j·55.951 Ω
+[  169] Gain={Max: 6.77550 dB, Mean: -2.42676±4.55219 dB}, Impedance=76.286 + j·55.300 Ω
+[  170] Gain={Max: 6.75970 dB, Mean: -2.39029±4.52856 dB}, Impedance=75.065 + j·52.972 Ω
+[  171] Gain={Max: 6.77785 dB, Mean: -2.36514±4.47796 dB}, Impedance=74.248 + j·52.715 Ω
+[  172] Gain={Max: 6.77362 dB, Mean: -2.35430±4.46999 dB}, Impedance=73.922 + j·52.123 Ω
+[  173] Gain={Max: 6.77775 dB, Mean: -2.37712±4.48765 dB}, Impedance=73.511 + j·51.478 Ω
+[  174] Gain={Max: 6.77253 dB, Mean: -2.36532±4.47790 dB}, Impedance=72.890 + j·50.226 Ω
+[  175] Gain={Max: 6.77880 dB, Mean: -2.36421±4.47186 dB}, Impedance=72.592 + j·50.163 Ω
+[  176] Gain={Max: 6.76526 dB, Mean: -2.32936±4.44416 dB}, Impedance=71.413 + j·47.954 Ω
+[  177] Gain={Max: 6.78359 dB, Mean: -2.34762±4.45695 dB}, Impedance=70.594 + j·47.995 Ω
+[  178] Gain={Max: 6.76824 dB, Mean: -2.29200±4.40253 dB}, Impedance=71.028 + j·47.604 Ω
+[  179] Gain={Max: 6.75579 dB, Mean: -2.34913±4.49388 dB}, Impedance=71.608 + j·47.537 Ω
+[  180] Gain={Max: 6.78104 dB, Mean: -2.29182±4.39557 dB}, Impedance=70.137 + j·47.047 Ω
+[  181] Gain={Max: 6.77088 dB, Mean: -2.26179±4.37082 dB}, Impedance=69.501 + j·45.873 Ω
+[  182] Gain={Max: 6.75525 dB, Mean: -2.22500±4.34658 dB}, Impedance=68.998 + j·44.953 Ω
+[  183] Gain={Max: 6.75931 dB, Mean: -2.22066±4.33637 dB}, Impedance=68.803 + j·44.897 Ω
+[  184] Gain={Max: 6.76476 dB, Mean: -2.23593±4.34618 dB}, Impedance=68.769 + j·44.890 Ω
+[  185] Gain={Max: 6.75819 dB, Mean: -2.22661±4.33817 dB}, Impedance=67.984 + j·43.198 Ω
+[  186] Gain={Max: 6.74511 dB, Mean: -2.20485±4.32289 dB}, Impedance=66.949 + j·41.059 Ω
+[  187] Gain={Max: 6.77091 dB, Mean: -2.25008±4.35498 dB}, Impedance=66.371 + j·41.442 Ω
+[  188] Gain={Max: 6.77096 dB, Mean: -2.25016±4.35506 dB}, Impedance=66.372 + j·41.408 Ω
+[  189] Gain={Max: 6.76369 dB, Mean: -2.23664±4.34277 dB}, Impedance=66.621 + j·41.307 Ω
+[  190] Gain={Max: 6.77179 dB, Mean: -2.27591±4.38207 dB}, Impedance=66.287 + j·41.285 Ω
+[  191] Gain={Max: 6.76376 dB, Mean: -2.38921±4.53500 dB}, Impedance=67.283 + j·41.134 Ω
+[  192] Gain={Max: 6.75980 dB, Mean: -2.38063±4.52867 dB}, Impedance=66.955 + j·40.501 Ω
+[  193] Gain={Max: 6.74809 dB, Mean: -2.35687±4.51222 dB}, Impedance=66.069 + j·38.748 Ω
+[  194] Gain={Max: 6.73526 dB, Mean: -2.33273±4.49684 dB}, Impedance=65.197 + j·36.963 Ω
+[  195] Gain={Max: 6.76948 dB, Mean: -2.30550±4.43397 dB}, Impedance=63.208 + j·36.250 Ω
+[  196] Gain={Max: 6.76605 dB, Mean: -2.33040±4.46771 dB}, Impedance=62.855 + j·35.343 Ω
+[  197] Gain={Max: 6.73187 dB, Mean: -2.38564±4.58541 dB}, Impedance=61.772 + j·32.375 Ω
+[  198] Gain={Max: 6.76037 dB, Mean: -2.35398±4.48126 dB}, Impedance=61.963 + j·31.832 Ω
+[  199] Gain={Max: 6.75990 dB, Mean: -2.35685±4.47236 dB}, Impedance=62.495 + j·31.893 Ω
+[  200] Gain={Max: 6.75840 dB, Mean: -2.35508±4.47012 dB}, Impedance=62.595 + j·31.890 Ω
+[  201] Gain={Max: 6.73635 dB, Mean: -2.44814±4.61036 dB}, Impedance=60.998 + j·28.753 Ω
+[  202] Gain={Max: 6.73649 dB, Mean: -2.44851±4.61097 dB}, Impedance=61.026 + j·28.704 Ω
+[  203] Gain={Max: 6.74655 dB, Mean: -2.46332±4.59196 dB}, Impedance=61.614 + j·28.793 Ω
+[  204] Gain={Max: 6.74585 dB, Mean: -2.46430±4.58785 dB}, Impedance=61.832 + j·28.824 Ω
+[  205] Gain={Max: 6.74450 dB, Mean: -2.46226±4.58478 dB}, Impedance=61.560 + j·28.279 Ω
+[  206] Gain={Max: 6.74309 dB, Mean: -2.47622±4.60318 dB}, Impedance=61.400 + j·28.073 Ω
+[  207] Gain={Max: 6.73741 dB, Mean: -2.50063±4.64096 dB}, Impedance=61.100 + j·27.660 Ω
+[  208] Gain={Max: 6.71442 dB, Mean: -2.40173±4.53124 dB}, Impedance=61.769 + j·26.907 Ω
+[  209] Gain={Max: 6.73598 dB, Mean: -2.45963±4.57786 dB}, Impedance=61.403 + j·27.284 Ω
+[  210] Gain={Max: 6.72407 dB, Mean: -2.39822±4.52427 dB}, Impedance=60.951 + j·26.132 Ω
+[  211] Gain={Max: 6.72177 dB, Mean: -2.39314±4.52017 dB}, Impedance=60.742 + j·25.655 Ω
+[  212] Gain={Max: 6.72934 dB, Mean: -2.35069±4.45603 dB}, Impedance=60.363 + j·25.632 Ω
+[  213] Gain={Max: 6.73848 dB, Mean: -2.34187±4.43993 dB}, Impedance=59.751 + j·25.343 Ω
+[  214] Gain={Max: 6.72160 dB, Mean: -2.27203±4.37712 dB}, Impedance=59.061 + j·23.592 Ω
+[  215] Gain={Max: 6.71341 dB, Mean: -2.24977±4.36108 dB}, Impedance=58.844 + j·23.020 Ω
+[  216] Gain={Max: 6.71020 dB, Mean: -2.24563±4.35666 dB}, Impedance=58.404 + j·21.866 Ω
+[  217] Gain={Max: 6.68445 dB, Mean: -2.19163±4.32237 dB}, Impedance=57.638 + j·20.179 Ω
+[  218] Gain={Max: 6.72645 dB, Mean: -2.21534±4.30627 dB}, Impedance=56.286 + j·19.940 Ω
+[  219] Gain={Max: 6.72200 dB, Mean: -2.20155±4.29279 dB}, Impedance=56.009 + j·19.351 Ω
+[  220] Gain={Max: 6.69868 dB, Mean: -2.14617±4.24666 dB}, Impedance=54.943 + j·16.986 Ω
+[  221] Gain={Max: 6.69545 dB, Mean: -2.14111±4.24231 dB}, Impedance=54.683 + j·16.360 Ω
+[  222] Gain={Max: 6.71547 dB, Mean: -2.18984±4.28197 dB}, Impedance=54.415 + j·16.722 Ω
+[  223] Gain={Max: 6.72120 dB, Mean: -2.24021±4.33920 dB}, Impedance=53.997 + j·16.373 Ω
+[  224] Gain={Max: 6.72149 dB, Mean: -2.24078±4.33996 dB}, Impedance=54.035 + j·16.316 Ω
+[  225] Gain={Max: 6.72271 dB, Mean: -2.33314±4.45505 dB}, Impedance=54.893 + j·16.454 Ω
+[  226] Gain={Max: 6.70875 dB, Mean: -2.29645±4.42211 dB}, Impedance=53.920 + j·14.349 Ω
+[  227] Gain={Max: 6.71439 dB, Mean: -2.22087±4.31546 dB}, Impedance=53.067 + j·14.119 Ω
+[  228] Gain={Max: 6.71587 dB, Mean: -2.26537±4.37359 dB}, Impedance=52.760 + j·14.003 Ω
+[  229] Gain={Max: 6.71259 dB, Mean: -2.26021±4.36251 dB}, Impedance=51.979 + j·12.028 Ω
+[  230] Gain={Max: 6.71134 dB, Mean: -2.25834±4.35854 dB}, Impedance=51.692 + j·11.272 Ω
+[  231] Gain={Max: 6.70615 dB, Mean: -2.25112±4.34329 dB}, Impedance=50.539 + j·8.0635 Ω
+[  232] Gain={Max: 6.70499 dB, Mean: -2.24050±4.33023 dB}, Impedance=50.416 + j·7.7735 Ω
+[  233] Gain={Max: 6.70468 dB, Mean: -2.24036±4.32961 dB}, Impedance=50.337 + j·7.5513 Ω
+[  234] Gain={Max: 6.70427 dB, Mean: -2.24023±4.32878 dB}, Impedance=50.223 + j·7.2199 Ω
+[  235] Gain={Max: 6.70324 dB, Mean: -2.24029±4.32690 dB}, Impedance=49.910 + j·6.2120 Ω
+[  236] Gain={Max: 6.70264 dB, Mean: -2.23585±4.32166 dB}, Impedance=49.861 + j·6.0932 Ω
+[  237] Gain={Max: 6.70326 dB, Mean: -2.24412±4.33229 dB}, Impedance=49.822 + j·6.1299 Ω
+[  238] Gain={Max: 6.70257 dB, Mean: -2.24336±4.33052 dB}, Impedance=49.651 + j·5.9313 Ω
+[  239] Gain={Max: 6.70227 dB, Mean: -2.24311±4.32978 dB}, Impedance=49.567 + j·5.8023 Ω
+[  240] Gain={Max: 6.70223 dB, Mean: -2.25070±4.33968 dB}, Impedance=49.509 + j·5.7421 Ω
+[  241] Gain={Max: 6.70213 dB, Mean: -2.25481±4.34533 dB}, Impedance=49.483 + j·5.7289 Ω
+[  242] Gain={Max: 6.70183 dB, Mean: -2.25845±4.35009 dB}, Impedance=49.438 + j·5.6062 Ω
+[  243] Gain={Max: 6.70583 dB, Mean: -2.31576±4.41751 dB}, Impedance=49.835 + j·5.6221 Ω
+[  244] Gain={Max: 6.70599 dB, Mean: -2.33148±4.43744 dB}, Impedance=49.957 + j·5.6276 Ω
+[  245] Gain={Max: 6.70657 dB, Mean: -2.34581±4.45312 dB}, Impedance=49.877 + j·5.3008 Ω
+[  246] Gain={Max: 6.70656 dB, Mean: -2.35172±4.46023 dB}, Impedance=49.827 + j·5.2199 Ω
+[  247] Gain={Max: 6.70557 dB, Mean: -2.37276±4.48791 dB}, Impedance=49.677 + j·5.0467 Ω
+[  248] Gain={Max: 6.70234 dB, Mean: -2.32031±4.42633 dB}, Impedance=49.407 + j·4.6332 Ω
+[  249] Gain={Max: 6.70476 dB, Mean: -2.34172±4.44972 dB}, Impedance=49.517 + j·4.8151 Ω
+[  250] Gain={Max: 6.70420 dB, Mean: -2.34158±4.44842 dB}, Impedance=49.320 + j·4.4294 Ω
+[  251] Gain={Max: 6.70415 dB, Mean: -2.34160±4.44832 dB}, Impedance=49.299 + j·4.3823 Ω
+[  252] Gain={Max: 6.70386 dB, Mean: -2.35143±4.45985 dB}, Impedance=49.187 + j·4.0785 Ω
+[  253] Gain={Max: 6.70036 dB, Mean: -2.33534±4.43963 dB}, Impedance=48.682 + j·2.9062 Ω
+[  254] Gain={Max: 6.69785 dB, Mean: -2.32552±4.42799 dB}, Impedance=48.384 + j·2.2006 Ω
+[  255] Gain={Max: 6.69846 dB, Mean: -2.36637±4.47458 dB}, Impedance=48.174 + j·1.2502 Ω
+[  256] Gain={Max: 6.69809 dB, Mean: -2.36671±4.47420 dB}, Impedance=48.041 + j·901.77 m Ω
+[  257] Gain={Max: 6.69772 dB, Mean: -2.36757±4.47418 dB}, Impedance=47.879 + j·379.54 m Ω
+[  258] Gain={Max: 6.69763 dB, Mean: -2.36791±4.47428 dB}, Impedance=47.833 + j·207.42 m Ω
+[  259] Gain={Max: 6.69788 dB, Mean: -2.36882±4.47567 dB}, Impedance=47.885 + j·344.70 m Ω
+[  260] Gain={Max: 6.69950 dB, Mean: -2.37517±4.48560 dB}, Impedance=48.261 + j·1.3085 Ω
+[  261] Gain={Max: 6.70093 dB, Mean: -2.36132±4.46784 dB}, Impedance=48.424 + j·1.7551 Ω
+[  262] Gain={Max: 6.70074 dB, Mean: -2.36133±4.46746 dB}, Impedance=48.348 + j·1.6887 Ω
+[  263] Gain={Max: 6.69975 dB, Mean: -2.36123±4.46575 dB}, Impedance=48.089 + j·767.90 m Ω
+[  264] Gain={Max: 6.70017 dB, Mean: -2.35432±4.45741 dB}, Impedance=48.164 + j·993.82 m Ω
+[  265] Gain={Max: 6.70041 dB, Mean: -2.37069±4.47753 dB}, Impedance=48.296 + j·1.0254 Ω
+[  266] Gain={Max: 6.70021 dB, Mean: -2.37664±4.48444 dB}, Impedance=48.230 + j·846.92 m Ω
+[  267] Gain={Max: 6.70035 dB, Mean: -2.38185±4.49789 dB}, Impedance=47.980 + j·827.34 m Ω
+[  268] Gain={Max: 6.70017 dB, Mean: -2.38218±4.49793 dB}, Impedance=47.903 + j·681.81 m Ω
+[  269] Gain={Max: 6.70019 dB, Mean: -2.38225±4.49800 dB}, Impedance=47.908 + j·656.20 m Ω
+[  270] Gain={Max: 6.69998 dB, Mean: -2.38459±4.49963 dB}, Impedance=47.745 - j·161.48 m Ω
+[  271] Gain={Max: 6.70008 dB, Mean: -2.38327±4.49868 dB}, Impedance=47.830 + j·286.40 m Ω
+[  272] Gain={Max: 6.70004 dB, Mean: -2.38361±4.49890 dB}, Impedance=47.806 + j·156.60 m Ω
+[  273] Gain={Max: 6.70008 dB, Mean: -2.38343±4.49880 dB}, Impedance=47.830 + j·217.60 m Ω
+[  274] Gain={Max: 6.70013 dB, Mean: -2.38329±4.49874 dB}, Impedance=47.851 + j·264.10 m Ω
+[  275] Gain={Max: 6.70024 dB, Mean: -2.38307±4.49871 dB}, Impedance=47.901 + j·349.49 m Ω
+[  276] Gain={Max: 6.70237 dB, Mean: -2.35072±4.45785 dB}, Impedance=48.073 + j·1.1561 Ω
+[  277] Gain={Max: 6.70234 dB, Mean: -2.35087±4.45782 dB}, Impedance=48.040 + j·1.1048 Ω
+[  278] Gain={Max: 6.70232 dB, Mean: -2.35101±4.45784 dB}, Impedance=48.018 + j·1.0619 Ω
+[  279] Gain={Max: 6.70252 dB, Mean: -2.35891±4.46753 dB}, Impedance=48.060 + j·1.1227 Ω
+[  280] Gain={Max: 6.70308 dB, Mean: -2.37485±4.48675 dB}, Impedance=48.171 + j·1.1325 Ω
+[  281] Gain={Max: 6.70306 dB, Mean: -2.37538±4.48694 dB}, Impedance=48.111 + j·976.69 m Ω
+[  282] Gain={Max: 6.70306 dB, Mean: -2.37565±4.48709 dB}, Impedance=48.087 + j·896.98 m Ω
+[  283] Gain={Max: 6.70311 dB, Mean: -2.37451±4.48908 dB}, Impedance=47.917 + j·828.94 m Ω
+[  284] Gain={Max: 6.70390 dB, Mean: -2.36665±4.47887 dB}, Impedance=48.002 + j·1.0458 Ω
+[  285] Gain={Max: 6.70439 dB, Mean: -2.35590±4.46524 dB}, Impedance=48.088 + j·1.1940 Ω
+[  286] Gain={Max: 6.70474 dB, Mean: -2.36105±4.47326 dB}, Impedance=48.032 + j·1.2197 Ω
+[  287] Gain={Max: 6.70531 dB, Mean: -2.40082±4.52181 dB}, Impedance=48.348 + j·1.2947 Ω
+[  288] Gain={Max: 6.70555 dB, Mean: -2.38084±4.49766 dB}, Impedance=48.116 + j·1.1729 Ω
+[  289] Gain={Max: 6.70557 dB, Mean: -2.38138±4.49800 dB}, Impedance=48.078 + j·1.0243 Ω
+[  290] Gain={Max: 6.70564 dB, Mean: -2.38260±4.49888 dB}, Impedance=48.013 + j·691.74 m Ω
+[  291] Gain={Max: 6.70576 dB, Mean: -2.38424±4.50019 dB}, Impedance=47.950 + j·254.79 m Ω
+[  292] Gain={Max: 6.70597 dB, Mean: -2.37931±4.49403 dB}, Impedance=47.989 + j·321.07 m Ω
+[  293] Gain={Max: 6.70648 dB, Mean: -2.39659±4.51588 dB}, Impedance=48.179 + j·762.59 m Ω
+[  294] Gain={Max: 6.70666 dB, Mean: -2.40805±4.52753 dB}, Impedance=48.383 + j·874.23 m Ω
+[  295] Gain={Max: 6.70689 dB, Mean: -2.40884±4.53028 dB}, Impedance=48.290 + j·844.61 m Ω
+[  296] Gain={Max: 6.70699 dB, Mean: -2.41248±4.53330 dB}, Impedance=48.155 - j·162.86 m Ω
+[  297] Gain={Max: 6.70864 dB, Mean: -2.37824±4.49251 dB}, Impedance=48.506 + j·708.77 m Ω
+[  298] Gain={Max: 6.70952 dB, Mean: -2.38728±4.50271 dB}, Impedance=48.596 + j·918.53 m Ω
+[  299] Gain={Max: 6.70956 dB, Mean: -2.37185±4.48451 dB}, Impedance=48.395 + j·804.27 m Ω
+[  300] Gain={Max: 6.70958 dB, Mean: -2.37210±4.48471 dB}, Impedance=48.388 + j·736.61 m Ω
+[  301] Gain={Max: 6.70963 dB, Mean: -2.37279±4.48530 dB}, Impedance=48.366 + j·549.43 m Ω
+[  302] Gain={Max: 6.70977 dB, Mean: -2.37484±4.48707 dB}, Impedance=48.309 - j·725.57 u Ω
+[  303] Gain={Max: 6.71038 dB, Mean: -2.37631±4.48949 dB}, Impedance=48.442 + j·387.04 m Ω
+[  304] Gain={Max: 6.71130 dB, Mean: -2.38697±4.50376 dB}, Impedance=48.700 + j·978.89 m Ω
+[  305] Gain={Max: 6.71145 dB, Mean: -2.38902±4.50412 dB}, Impedance=48.813 + j·1.0433 Ω
+[  306] Gain={Max: 6.71146 dB, Mean: -2.38919±4.50427 dB}, Impedance=48.808 + j·995.96 m Ω
+[  307] Gain={Max: 6.71174 dB, Mean: -2.38010±4.49282 dB}, Impedance=48.868 + j·1.0656 Ω
+[  308] Gain={Max: 6.71204 dB, Mean: -2.38114±4.49613 dB}, Impedance=48.752 + j·1.0295 Ω
+[  309] Gain={Max: 6.71243 dB, Mean: -2.40413±4.52376 dB}, Impedance=48.909 + j·1.0514 Ω
+[  310] Gain={Max: 6.71285 dB, Mean: -2.40679±4.52718 dB}, Impedance=48.993 + j·1.2494 Ω
+[  311] Gain={Max: 6.71292 dB, Mean: -2.40323±4.52398 dB}, Impedance=48.895 + j·1.1961 Ω
+[  312] Gain={Max: 6.71305 dB, Mean: -2.39378±4.51172 dB}, Impedance=48.935 + j·1.1896 Ω
+[  313] Gain={Max: 6.71340 dB, Mean: -2.40092±4.52280 dB}, Impedance=48.859 + j·1.2192 Ω
+[  314] Gain={Max: 6.71244 dB, Mean: -2.39370±4.51294 dB}, Impedance=48.620 + j·651.48 m Ω
+[  315] Gain={Max: 6.71264 dB, Mean: -2.39595±4.51502 dB}, Impedance=48.578 + j·90.322 m Ω
+[  316] Gain={Max: 6.71474 dB, Mean: -2.40134±4.52412 dB}, Impedance=49.079 + j·1.5215 Ω
+[  317] Gain={Max: 6.71484 dB, Mean: -2.39502±4.51619 dB}, Impedance=49.049 + j·1.4855 Ω
+[  318] Gain={Max: 6.71477 dB, Mean: -2.38815±4.50702 dB}, Impedance=49.071 + j·1.4410 Ω
+[  319] Gain={Max: 6.71410 dB, Mean: -2.38780±4.50571 dB}, Impedance=48.906 + j·862.09 m Ω
+[  320] Gain={Max: 6.71439 dB, Mean: -2.39839±4.52126 dB}, Impedance=48.846 + j·938.57 m Ω
+[  321] Gain={Max: 6.71470 dB, Mean: -2.39426±4.51572 dB}, Impedance=48.872 + j·970.84 m Ω
+[  322] Gain={Max: 6.71523 dB, Mean: -2.37801±4.49519 dB}, Impedance=48.975 + j·1.0910 Ω
+[  323] Gain={Max: 6.71529 dB, Mean: -2.38716±4.50678 dB}, Impedance=48.937 + j·1.0989 Ω
+[  324] Gain={Max: 6.71545 dB, Mean: -2.38085±4.49889 dB}, Impedance=48.976 + j·1.1445 Ω
+[  325] Gain={Max: 6.71538 dB, Mean: -2.38113±4.49899 dB}, Impedance=48.945 + j·991.91 m Ω
+[  326] Gain={Max: 6.71527 dB, Mean: -2.38154±4.49915 dB}, Impedance=48.900 + j·774.27 m Ω
+[  327] Gain={Max: 6.71622 dB, Mean: -2.38964±4.50942 dB}, Impedance=49.090 + j·1.2069 Ω
+[  328] Gain={Max: 6.71627 dB, Mean: -2.38990±4.50964 dB}, Impedance=49.076 + j·1.2283 Ω
+[  329] Gain={Max: 6.71631 dB, Mean: -2.39021±4.50993 dB}, Impedance=49.066 + j·1.2084 Ω
+[  330] Gain={Max: 6.71639 dB, Mean: -2.39082±4.51050 dB}, Impedance=49.053 + j·1.1224 Ω
+[  331] Gain={Max: 6.71605 dB, Mean: -2.38959±4.50868 dB}, Impedance=48.978 + j·925.09 m Ω
+[  332] Gain={Max: 6.71663 dB, Mean: -2.37528±4.49135 dB}, Impedance=49.109 + j·1.2085 Ω
+[  333] Gain={Max: 6.71688 dB, Mean: -2.39885±4.51971 dB}, Impedance=49.206 + j·1.3190 Ω
+[  334] Gain={Max: 6.71712 dB, Mean: -2.38125±4.49685 dB}, Impedance=49.281 + j·1.3021 Ω
+[  335] Gain={Max: 6.71723 dB, Mean: -2.38204±4.49759 dB}, Impedance=49.270 + j·1.1458 Ω
+[  336] Gain={Max: 6.71730 dB, Mean: -2.38262±4.49815 dB}, Impedance=49.264 + j·1.0106 Ω
+[  337] Gain={Max: 6.71733 dB, Mean: -2.38289±4.49841 dB}, Impedance=49.262 + j·946.36 m Ω
+[  338] Gain={Max: 6.71734 dB, Mean: -2.38301±4.49853 dB}, Impedance=49.261 + j·915.00 m Ω
+[  339] Gain={Max: 6.71737 dB, Mean: -2.38329±4.49880 dB}, Impedance=49.259 + j·844.54 m Ω
+[  340] Gain={Max: 6.71798 dB, Mean: -2.39085±4.50797 dB}, Impedance=49.377 + j·1.1282 Ω
+[  341] Gain={Max: 6.71805 dB, Mean: -2.39159±4.50870 dB}, Impedance=49.373 + j·931.39 m Ω
+[  342] Gain={Max: 6.71808 dB, Mean: -2.39192±4.50903 dB}, Impedance=49.372 + j·839.73 m Ω
+[  343] Gain={Max: 6.71821 dB, Mean: -2.39734±4.51670 dB}, Impedance=49.348 + j·882.24 m Ω
+[  344] Gain={Max: 6.71887 dB, Mean: -2.38376±4.49973 dB}, Impedance=49.453 + j·1.0554 Ω
+[  345] Gain={Max: 6.71899 dB, Mean: -2.38598±4.50236 dB}, Impedance=49.474 + j·1.1034 Ω
+[  346] Gain={Max: 6.71888 dB, Mean: -2.38608±4.50229 dB}, Impedance=49.441 + j·968.49 m Ω
+[  347] Gain={Max: 6.71892 dB, Mean: -2.38653±4.50274 dB}, Impedance=49.440 + j·840.43 m Ω
+[  348] Gain={Max: 6.71965 dB, Mean: -2.39134±4.50893 dB}, Impedance=49.589 + j·1.1973 Ω
+[  349] Gain={Max: 6.71986 dB, Mean: -2.38570±4.50198 dB}, Impedance=49.633 + j·1.2680 Ω
+[  350] Gain={Max: 6.72016 dB, Mean: -2.39054±4.50893 dB}, Impedance=49.595 + j·1.2919 Ω
+[  351] Gain={Max: 6.71980 dB, Mean: -2.38109±4.49749 dB}, Impedance=49.505 + j·1.0837 Ω
+[  352] Gain={Max: 6.72007 dB, Mean: -2.38399±4.50195 dB}, Impedance=49.462 + j·1.0896 Ω
+[  353] Gain={Max: 6.72038 dB, Mean: -2.37347±4.48910 dB}, Impedance=49.542 + j·1.2195 Ω
+[  354] Gain={Max: 6.71980 dB, Mean: -2.38459±4.50213 dB}, Impedance=49.421 + j·861.07 m Ω
+[  355] Gain={Max: 6.72025 dB, Mean: -2.38782±4.50639 dB}, Impedance=49.524 + j·1.1045 Ω
+[  356] Gain={Max: 6.71999 dB, Mean: -2.37983±4.49663 dB}, Impedance=49.447 + j·924.60 m Ω
+[  357] Gain={Max: 6.72019 dB, Mean: -2.38738±4.50857 dB}, Impedance=49.364 + j·952.65 m Ω
+[  358] Gain={Max: 6.71966 dB, Mean: -2.38598±4.50612 dB}, Impedance=49.227 + j·556.12 m Ω
+[  359] Gain={Max: 6.72054 dB, Mean: -2.36743±4.48282 dB}, Impedance=49.368 + j·784.73 m Ω
+[  360] Gain={Max: 6.72088 dB, Mean: -2.37598±4.49693 dB}, Impedance=49.234 + j·802.15 m Ω
+[  361] Gain={Max: 6.72196 dB, Mean: -2.40396±4.53006 dB}, Impedance=49.424 + j·817.96 m Ω
+[  362] Gain={Max: 6.72209 dB, Mean: -2.39363±4.51746 dB}, Impedance=49.485 + j·884.10 m Ω
+[  363] Gain={Max: 6.72341 dB, Mean: -2.40428±4.53050 dB}, Impedance=49.725 + j·1.4233 Ω
+[  364] Gain={Max: 6.72343 dB, Mean: -2.40448±4.53070 dB}, Impedance=49.725 + j·1.3675 Ω
+[  365] Gain={Max: 6.72294 dB, Mean: -2.40130±4.52663 dB}, Impedance=49.625 + j·1.1312 Ω
+[  366] Gain={Max: 6.72276 dB, Mean: -2.40151±4.52656 dB}, Impedance=49.572 + j·909.21 m Ω
+[  367] Gain={Max: 6.72317 dB, Mean: -2.40746±4.53385 dB}, Impedance=49.667 + j·1.1321 Ω
+[  368] Gain={Max: 6.72355 dB, Mean: -2.39277±4.51611 dB}, Impedance=49.774 + j·1.3033 Ω
+[  369] Gain={Max: 6.72289 dB, Mean: -2.39127±4.51393 dB}, Impedance=49.646 + j·929.03 m Ω
+[  370] Gain={Max: 6.72363 dB, Mean: -2.39705±4.52213 dB}, Impedance=49.564 + j·935.79 m Ω
+[  371] Gain={Max: 6.72355 dB, Mean: -2.39517±4.52177 dB}, Impedance=49.443 + j·867.64 m Ω
+[  372] Gain={Max: 6.72361 dB, Mean: -2.39141±4.51709 dB}, Impedance=49.428 + j·854.01 m Ω
+[  373] Gain={Max: 6.72363 dB, Mean: -2.38763±4.51247 dB}, Impedance=49.412 + j·839.46 m Ω
+[  374] Gain={Max: 6.72404 dB, Mean: -2.38070±4.50424 dB}, Impedance=49.485 + j·1.0641 Ω
+[  375] Gain={Max: 6.72377 dB, Mean: -2.38836±4.51325 dB}, Impedance=49.439 + j·865.85 m Ω
+[  376] Gain={Max: 6.72401 dB, Mean: -2.40741±4.53620 dB}, Impedance=49.606 + j·918.88 m Ω
+[  377] Gain={Max: 6.72427 dB, Mean: -2.41166±4.54182 dB}, Impedance=49.588 + j·949.94 m Ω
+[  378] Gain={Max: 6.72449 dB, Mean: -2.41483±4.54569 dB}, Impedance=49.639 + j·1.0687 Ω
+[  379] Gain={Max: 6.72447 dB, Mean: -2.41705±4.55069 dB}, Impedance=49.545 + j·1.0547 Ω
+[  380] Gain={Max: 6.72433 dB, Mean: -2.40512±4.53574 dB}, Impedance=49.421 + j·776.11 m Ω
+[  381] Gain={Max: 6.72466 dB, Mean: -2.40680±4.53803 dB}, Impedance=49.497 + j·970.82 m Ω
+[  382] Gain={Max: 6.72466 dB, Mean: -2.40680±4.53803 dB}, Impedance=49.497 + j·970.82 m Ω

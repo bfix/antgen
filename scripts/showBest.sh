@@ -39,4 +39,4 @@ OUT=${ANTGEN_OUT:-${BIN}/out}
 # show best results
 #-----------------------------------------------------------------------
 
-${BIN}/tabula -db ${OUT}/results.db show-best -in ${OUT} -band ${BAND} -target ${TGT} -zRange ${RNG}
+${BIN}/tabula -db ${OUT}/results.db -in ${OUT} show-best -band ${BAND} -target ${TGT} -zRange ${RNG}
