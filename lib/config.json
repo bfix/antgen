@@ -1,0 +1,50 @@
+{
+    "defaults": {
+        "k": 0.25,
+        "wire": {
+            "dia": 0.002,
+            "G": 5.96e7,
+            "L": 2e-8
+        },
+        "ground": {
+            "height": 0,
+            "mode": 0,
+            "type": 0,
+            "nradl": 0,
+            "epse": 0,
+            "sig": 0
+        },
+        "source": {
+            "Z": {
+                "R": 50,
+                "X": 0
+            },
+            "power": 1,
+            "freq": 145000000,
+            "span": 1000000
+        }
+    },
+    "simulation": {
+        "maxRounds": 5,
+        "minZr": 1,
+        "maxZr": 3000,
+        "minChange": 0.001,
+        "progressCheck": 10,
+        "minBend": 0.01,
+        "exciteU": 1.0,
+        "phiStep": 5.0,
+        "thetaStep": 5.0,
+        "wireMax": 0.008,
+        "segMinLambda": 0.002,
+        "segMinWire": 4,
+        "minRadius": 0.02
+    },
+    "plugins": {
+        "isotrope": "./isotrope_comparator.so"
+    },
+    "render": {
+        "canvas": "sdl",
+        "width": 1024,
+        "height": 768
+    }
+}

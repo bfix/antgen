@@ -1,0 +1,8 @@
+/antgen
+/replay
+/tabula
+/convert
+/cmd/antgen/_date
+/cmd/antgen/_version
+/out/
+/.vscode/

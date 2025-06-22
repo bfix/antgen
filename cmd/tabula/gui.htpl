@@ -1,0 +1,216 @@
+{{define "main"}}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 2em 10em 2em 10em;
+            }
+            tr.row:nth-child(even) {
+                background: #eef;
+            }
+            tr.row:nth-child(odd) {
+                background: #ccf;
+            }
+            tr.header {
+                background: #33f;
+                color: white;
+                font-weight: bold;
+            }
+            td {
+                padding: 0.5em;
+            }
+            div.box {
+                border: 2px solid black;
+                margin: 0.5em;
+                padding: 0.5em;
+            }
+            .stat-norm {
+                background-color: white;
+                color: black;
+            }
+            .stat-info {
+                background-color: green;
+                color: white;
+            }
+            .stat-warn {
+                background-color: orange;
+                color: black;
+            }
+            .stat-err {
+                background-color: red;
+                color: white;
+            }
+
+        </style> 
+    </head>
+    <body>
+        {{.}}
+    </body>
+</html>
+{{end}}
+
+{{define "plotset"}}
+{{$sel := .Sel}}
+{{$ps := index .Sel.Sets .Idx}}
+<tr class="row">
+{{if $ps}}
+    {{index .Styles .Idx}}
+    <td><input type="text" name="plotset_{{.Idx}}_tag" value="{{$ps.Tag}}"></td>
+    <td>
+        <select name="plotset_{{.Idx}}_dir">
+            <option value=""></option>
+        {{range .Sets}}
+            <option value="{{.Dir}}" {{if eq .Dir $ps.Dir}}selected{{end}}>{{.Dir}}</option>
+        {{end}}
+        </select>
+    </td>
+    {{$hasK := gt (len $ps.Klist) 0}}
+    {{$varK := gt (len $ps.Klist) 1}}
+    {{$hasP := gt (len $ps.Plist) 0}}
+    {{$varP := gt (len $ps.Plist) 1}}
+    <td>
+        {{if $hasK}}
+            {{$kVal := 0.0}}
+            {{if ne $ps.Kidx -1}}
+                {{$kVal = (index $ps.Klist $ps.Kidx)}}
+            {{else}}
+                {{if eq (len $ps.Klist) 1}}
+                    {{$kVal = index $ps.Klist 0}}
+                {{end}}
+            {{end}}
+            {{if not $varP}}
+                {{parRange "k" $ps}}
+            {{else}}
+                {{if $varK}}
+                    <select name="plotset_{{.Idx}}_k">
+                        <option value=""></option>
+                    {{range $ps.Klist}}
+                        <option value="{{.}}"{{if eq . $kVal}}selected{{end}}>{{.}}</option>
+                    {{end}}
+                    </select>
+                {{else}}
+                    {{$kVal}}
+                {{end}}
+            {{end}}
+        {{end}}
+    </td>
+    <td>
+        {{if $hasP}}
+            {{$pVal := 0.0}}
+            {{if ne $ps.Pidx -1}}
+                {{$pVal = (index $ps.Plist $ps.Pidx)}}
+            {{else}}
+                {{if eq (len $ps.Plist) 1}}
+                    {{$pVal = index $ps.Plist 0}}
+                {{end}}
+            {{end}}
+            {{if not $varK}}
+                {{parRange "param" $ps}}
+            {{else}}
+                {{if $varP}}
+                    <select name="plotset_{{.Idx}}_param">
+                        <option value=""></option>
+                    {{range $ps.Plist}}
+                        <option value="{{.}}"{{if eq . $pVal}}selected{{end}}>{{.}}</option>
+                    {{end}}
+                    </select>
+                {{else}}
+                    {{$pVal}}
+                {{end}}
+            {{end}}
+        {{end}}
+    </td>
+{{else}}
+    {{index .Styles .Idx}}
+    <td><input type="text" name="plotset_{{.Idx}}_tag" value=""></td>
+    <td>
+        <select name="plotset_{{.Idx}}_dir">
+            <option value=""></option>
+        {{range .Sets}}
+            <option value="{{.Dir}}">{{.Dir}}</option>
+        {{end}}
+        </select>
+    </td>
+    <td/>
+    <td/>
+{{end}}
+</tr>
+{{end}}
+
+{{define "plot"}}
+{{$prefix := .Prefix}}
+{{$sel := .Select}}
+{{$sets := .Sets}}
+{{$styles := .Styles}}
+
+<h1>AntGen -- Plots</h1>
+<p>#ant: {{.Stats.NumAnt}}, #opt: {{.Stats.NumSteps}}, #sims: {{.Stats.NumSims}}, elapsed: {{.Stats.Duration}}</p>
+<hr/>
+<div>
+    <table>
+        <tr>
+            <td valign="top">
+                <form method="POST" action="{{$prefix}}/">
+                    <div>
+                        <table>
+                            <tr>
+                                <td align="right"><b>Target:</b></td>
+                                <td>
+                                    <select name="target" id="target">
+                                    {{range .Targets}}
+                                        <option value="{{.}}"{{if eq . $sel.Target}}selected{{end}}>{{.}}</option>
+                                    {{end}}
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <h3>Sets</h3>
+                        <table>
+                            <tr class="header">
+                                <td/>
+                                <td>Tag</td>
+                                <td>Directory</td>
+                                <td>k</td>
+                                <td>param</td>
+                            </tr>
+                            {{range $i := len $sel.Sets}}
+                                {{template "plotset" dict "Idx" $i "Sel" $sel "Sets" $sets "Styles" $styles}}
+                            {{end}}
+                        </table>
+                    </div>
+                    <div>
+                        <p><input type="submit"></p>
+                    </div>
+                </form>
+            </td>
+            <td valign="top">
+                {{if .Msgs}}
+                    {{range .Msgs}}
+                    <div class="box {{msgClass .Mode}}">
+                        {{.Text}}
+                    </div>
+                    {{end}}
+                    <hr/>
+                {{end}}
+                {{$plot := index .Graphs "plot"}}
+                {{if $plot}}
+                    {{$plot}}
+                    {{$legend := index .Graphs "legend"}}
+                    {{if $legend}}
+                        {{$legend}}
+                    {{end}}
+                {{else}}
+                    No plot available.
+                {{end}}
+            </td>
+        </tr>
+    </table>
+</div>
+{{end}}
