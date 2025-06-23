@@ -290,21 +290,26 @@ The following keys are defined:
 
   Custom generators (see `lib/generator.go`) can be implemented in the code
   base or as external LUA scripts. A LUA generator can be used with
-  `-gen lua:scr=mygenwalk.lua,bendMax=num:0.1` where `mygenwalk.lua` is a
-  file in the current directory:
+  `-gen lua:scr=<script>[,<param>,...]` where `<script>` is a
+  LUA script. Additional parameters for the script can be set by adding
+  comma-separated entries of the form `<var1>=[<type>:]<value>`. `type`
+  can be `int` (for integers) or `num` (for floating point numbers); if `type`
+  is missing, `value` is assumed to be a string.
+
+  E.g. using `-gen lua:scr=walk.lua,bendMax=num:0.1` with the following script
 
       local dir = 0.0
-      local rectAng = 3.1415 / 2
-      
+      local rectAng = math.pi / 2
       for i = 0,num-1,1 do
           local ang = 2 * (rnd() - 0.5) * bendMax
-          local dirNext = dir+ang
-          if math.abs(dirNext) > rectAng then
+          if math.abs(dir+ang) > rectAng then
               ang = -ang
           end
           setAngle(i,ang)
-          dir = dirNext
+          dir = dir+ang
       end
+
+  will work like the built-in `walk` generator.
 
 * `-seed`: Randomizer seed (generator/optimizer) (default: `1000`)
 

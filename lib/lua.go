@@ -79,20 +79,18 @@ func (g *LuaGenerator) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
 		return 0
 	})
 	for k, v := range g.params {
-		if k == "scr" {
-			continue
-		}
 		vv := strings.SplitN(v, ":", 2)
 		switch vv[0] {
 		case "int":
 			val, _ := strconv.Atoi(vv[1])
 			g.state.PushInteger(val)
-			g.state.SetGlobal(k)
 		case "num":
 			val, _ := strconv.ParseFloat(vv[1], 64)
 			g.state.PushNumber(val)
-			g.state.SetGlobal(k)
+		default:
+			g.state.PushString(vv[1])
 		}
+		g.state.SetGlobal(k)
 	}
 	if err := lua.DoFile(g.state, g.params["scr"]); err != nil {
 		panic(err)
