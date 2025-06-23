@@ -3,6 +3,7 @@ module github.com/bfix/antgen
 go 1.23.1
 
 require (
+	github.com/Shopify/go-lua v0.0.0-20250605195627-15bbeb73041e
 	github.com/ajstarks/svgo v0.0.0-20211024235047-1546f124cd8b
 	github.com/ctdk/go-libnecpp v0.0.0-20170331181410-1ff556a65888
 	github.com/mattn/go-sqlite3 v1.14.24

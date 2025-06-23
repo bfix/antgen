@@ -65,24 +65,28 @@ func init() {
 	set(new(GenV))
 	set(new(GenWalk))
 	set(new(GenStroll))
-	set(new(GenFlow))
 	set(new(GenTrespass))
 	set(new(GenGeo))
 }
 
 // GetGenerator by name
-func GetGenerator(name string, lambda float64) (Generator, error) {
+func GetGenerator(name string, lambda float64) (g Generator, err error) {
 	s := strings.SplitN(name, ":", 2)
-	g, ok := gens[s[0]]
-	if !ok {
-		return nil, fmt.Errorf("unknown generator '%s'", name)
-	}
 	param := ""
 	if len(s) > 1 {
 		param = s[1]
 	}
-	err := g.Init(param, lambda)
-	return g, err
+	if s[0] == "lua" {
+		g = new(LuaGenerator)
+		err = g.Init(param, lambda)
+		return
+	}
+	var ok bool
+	if g, ok = gens[s[0]]; !ok {
+		return nil, fmt.Errorf("unknown generator '%s'", name)
+	}
+	err = g.Init(param, lambda)
+	return
 }
 
 //----------------------------------------------------------------------
@@ -397,74 +401,6 @@ func (g *GenGeo) Name() string {
 // Volatile returns true if the generator is randomized
 func (g *GenGeo) Volatile() bool {
 	return false
-}
-
-//----------------------------------------------------------------------
-
-// GenFlow uses a stroll approach but minimizes bends where current
-// flow is high.
-type GenFlow struct {
-	lambda float64
-	rng    int
-	params string
-}
-
-// Init generator with given parameters
-func (g *GenFlow) Init(params string, lambda float64) error {
-	g.lambda = lambda
-	g.params = params
-	for _, p := range strings.Split(params, ",") {
-		v := strings.SplitN(p, "=", 2)
-		switch v[0] {
-		case "smooth":
-			k, err := strconv.Atoi(v[1])
-			if err != nil {
-				return err
-			}
-			g.rng = int(k)
-		}
-	}
-	return nil
-}
-
-// Nodes returns the initial antenna geometry made from 'num' segments
-// of equal length 'segL'.
-func (g *GenFlow) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
-	bendMax := BendMax(Cfg.Sim.MinRadius*g.lambda, segL)
-	nodes := make([]Node, num)
-	dir := 0.
-	for i := 0; i < num; i++ {
-		f := (float64(i) + 0.5) * segL / g.lambda
-		k := math.Cos(f * CircAng)
-		ang := 2 * (rnd.Float64() - 0.5) * bendMax * k
-		if math.Abs(dir+ang) > RectAng {
-			ang = -ang
-		}
-		nodes[i] = NewNode2D(segL, ang)
-		dir += ang
-	}
-	if g.rng > 0 {
-		nodes = Smooth2D(nodes, g.rng)
-	}
-	return nodes
-}
-
-// Info about generator
-func (g *GenFlow) Info() string {
-	if len(g.params) > 0 {
-		return fmt.Sprintf("%s[%s]", g.Name(), g.params)
-	}
-	return g.Name()
-}
-
-// Name of generator
-func (g *GenFlow) Name() string {
-	return "flow"
-}
-
-// Volatile returns true if the generator is randomized
-func (g *GenFlow) Volatile() bool {
-	return true
 }
 
 //----------------------------------------------------------------------

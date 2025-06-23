@@ -279,15 +279,32 @@ The following keys are defined:
 
 * `-gen`: Generator for initial geometry (default: `stroll`)
 
-  The following generators are built-in (short list):
+  The following generators are built-in:
 
   * `straight`: Start with straight legs
   * `v:ang=<val>`: Start with V-dipole with given opening angle
-  * `walk`: random walk outwards
-  * `stroll`: random walk on the leg side
+  * `walk`: Random walk outwards
+  * `stroll`: Random walk on the leg side
+  * `trespass`: Random walk without constraints
+  * `geo`: Use geometry file as input; parameter specifies the filename
 
-  See `lib/generator.go` for additional generators. Custom generators must
-  be implemented in the code base; plugins are not supported yet.
+  Custom generators (see `lib/generator.go`) can be implemented in the code
+  base or as external LUA scripts. A LUA generator can be used with
+  `-gen lua:scr=mygenwalk.lua,bendMax=num:0.1` where `mygenwalk.lua` is a
+  file in the current directory:
+
+      local dir = 0.0
+      local rectAng = 3.1415 / 2
+      
+      for i = 0,num-1,1 do
+          local ang = 2 * (rnd() - 0.5) * bendMax
+          local dirNext = dir+ang
+          if math.abs(dirNext) > rectAng then
+              ang = -ang
+          end
+          setAngle(i,ang)
+          dir = dirNext
+      end
 
 * `-seed`: Randomizer seed (generator/optimizer) (default: `1000`)
 
