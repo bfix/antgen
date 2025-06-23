@@ -139,14 +139,17 @@ bent legs, some (or all) angles may not be equal to 0°. If the dipole consists
 of n segments, an algorithm can change the angles $\alpha_i$ (with $i=1..n$)
 and thus "bend" the antenna in order to optimize it.
 
-The antenna simulation is based on an open-source NEC2 library, which is called
-indirectly from the optimization program. This allows almost any antenna geometry
-to be simulated at a defined frequency and properties such as impedance and
-spatial radiation characteristics to be calculated. The performance of an
-antenna is described by the following variables: maximum gain ($Gmax$), average
-gain ($Gmean\pm SD$), impedance $Z=R+jX$ and radiated power $G(\phi,\Theta)$ at
-azimuth ($\Theta$) and elevation ($\phi$). These performance values are used to
-evaluate antennas during optimization.
+<center><img src="docs/images/segments.svg" width="400"/></center>
+
+The antenna simulation is based on an open-source NEC2 implementation; `antgen`
+uses a [library](https:github.com/ctdk/go-libnecpp) to perform the simulation.
+This allows almost any antenna geometry to be simulated at a defined frequency
+and to calculate antenna properties such as impedance and spatial radiation
+characteristics. The performance of an antenna is described by the following
+variables: maximum gain ($Gmax$), average gain ($Gmean\pm SD$), impedance
+$Z=R+jX$ and radiated power $G(\Phi,\Theta)$ at azimuth ($\Theta$) and
+elevation ($\Phi$). These performance values are used to evaluate antennas
+performances during optimization.
 
 The optimization performs two basic steps:
 
@@ -195,21 +198,19 @@ Optimize a dipole for a given frequency (`-freq`); if a frequency range is
 specified, optimize for the center frequency. The range info (if available)
 is used to generate a matching "FR" card for NEC2.
 
-    ================_================          ^ Z
-    |<--   kλ    -->|<--    kλ   -->|          |
-                    ^- Excitation            Y x--> X
-
 The antenna is made out of a wire with specific properties (`-wire`) and is
 possibly mounted over ground (`-ground`). The half-length of the dipole is
 specified as a fraction (`-k`) of the wavelength of the (center) frequency.
 The dipole is center-fed from a source (`-source`) with defined impedance
 and output power.
 
+<center><img src="docs/images/dipole.svg" width="400"/></center>
+
 The initial (pre-optimization) geometry of the antenna is assembled by a
 generator (`-gen`); a generator can be volatile (meaning the geometry is
 based on some kind of seeded randomization `-seed`) or static (like a
 straight line or a V-shaped dipole). The generator creates only one half
-of the dipole; the other half is mirrored on the YZ plane.
+of the dipole; the other half is mirrored at the YZ plane.
 
 The initial geometry is optimized by an optimization model for the
 specified target (`-opt`) using an optimization model (`-model`).
