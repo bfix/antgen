@@ -100,7 +100,7 @@ antenna wire, ...).
 
   Optimizations are stored in (sub-)directories corresponding to their
   parameters; all models in a directory belong to the same
-  [model set](tree/main/docs/model_sets.md).
+  [model set](docs/model_sets.md).
 
   The directories created by `runOpts.sh` have the form
   `<band>/<wire>/<gen>/<target>` where `<band>` is the frequency band
@@ -153,7 +153,7 @@ variables: maximum gain ($Gmax$), average gain ($Gmean\pm SD$), impedance
 $Z=R+jX$ and radiated power $G(\phi,\theta)$ at azimuth ($\theta$) and
 elevation ($\phi$). These performance values are used to compare antennas
 performances during optimization (see
-[evaluators](tree/main/docs/evaluators.md)).
+[evaluators](docs/evaluators.md)).
 
 The optimization performs two basic steps:
 
@@ -167,7 +167,7 @@ calculated.
 random angle $\alpha_i$ is changed by a small, also random amount. The
 performance value $P_2$ of the new antenna geometry ist calculated and
 compared with $P_1$ under the selected optimization target
-([evaluator](tree/main/docs/evaluators.md)):
+([evaluator](docs/evaluators.md)):
 
     * If $P_2$ is worse than $P_1$, the change at angle
     $\alpha_i$ is discarded.
@@ -201,7 +201,7 @@ The following major knobs and dials are in place:
 
 * leg length
 * [initial geometry](generators.md)
-* optimization targets ([evaluators](tree/main/docs/evaluators.md))
+* optimization targets ([evaluators](docs/evaluators.md))
 * randomization seed
 
 A useful approach is to vary one (or two) of these parameters/settings and
@@ -250,7 +250,7 @@ outputs multiple files in the output directory (`-out`):
   values need to be included in a custom configuration (default configuration
   used for unspecified entries).
 
-  Details can be found in the [configuration section](tree/main/docs/config.md).
+  Details can be found in the [configuration section](docs/config.md).
 
 * `-freq <freq>|[<range>]`: The frequency range for the antenna. If a range
 is specified, the antenna is optimized for the center frequency. Defaults
@@ -259,9 +259,9 @@ to `430M-440M` (70cm band).
 * `-k <value>`: Length of a dipole leg (in λ, defaults to `0.25`).
 
   The `-k` value is (usually) the primary dimension in
-  [model sets](tree/main/docs/model_sets.md).
+  [model sets](docs/model_sets.md).
 
-* `-wire`: [Wire parameters](tree/main/docs/wire.md)
+* `-wire`: [Wire parameters](docs/wire.md)
 
 * `-ground`: Ground parameters as a list of key/value pairs (`<key>=<value>`).
 The following keys are defined:
@@ -299,7 +299,7 @@ The following keys are defined:
   `target1` as initial geometry); at last `antgen` optimizes for
   `target3` (using the final geometry of `target2` as initial geometry).
 
-  Details about evaluators can be found in the documentation on [optimization targets](tree/main/docs/evaluators.md).
+  Details about evaluators can be found in the documentation on [optimization targets](docs/evaluators.md).
   
 * `-gen`: Generator for initial geometry (default: `stroll`)
 
@@ -314,7 +314,7 @@ The following keys are defined:
   * `lua`: Use LUA script to generate initial geometry (custom generator)
 
   Details can be found in the
-  [documentation on generators](tree/main/docs/generators.md).
+  [documentation on generators](docs/generators.md).
   
 * `-seed`: Randomizer seed (generator/optimizer) (default: `1000`)
 
@@ -383,8 +383,8 @@ Run a plot server that can be used with a browser.
 
 In a browser open the URL `http://localhost:12345` and you will see the
 plotting user interface. Select a target value to plot and one or more
-[model sets](tree/main/docs/model_sets.md) (Directories). More information
-can be found in the [plotting section](tree/main/docs/plotting.md).
+[model sets](docs/model_sets.md) (Directories). More information
+can be found in the [plotting section](docs/plotting.md).
 
 ##### `plot-file`
 
