@@ -145,7 +145,7 @@ and thus "bend" the antenna in order to optimize it.
 <center><img src="docs/images/segments.svg" width="400"/></center>
 
 The antenna simulation is based on an open-source NEC2 implementation; `antgen`
-uses a [library](https:github.com/ctdk/go-libnecpp) to perform the simulation.
+uses a [library](https://github.com/ctdk/go-libnecpp) to perform the simulation.
 This allows almost any antenna geometry to be simulated at a defined frequency
 and to calculate antenna properties such as impedance and spatial radiation
 characteristics. The performance of an antenna is described by the following
@@ -200,13 +200,13 @@ and can thus reach different local maxima - perhaps even the "highest peak".
 The following major knobs and dials are in place:
 
 * leg length
-* [initial geometry](generators.md)
+* [initial geometry](docs/generators.md)
 * optimization targets ([evaluators](docs/evaluators.md))
 * randomization seed
 
 A useful approach is to vary one (or two) of these parameters/settings and
 to store all results in one directory - thus creating a
-[model set](model_sets.md) that can be plotted to "get a grasp" on how a
+[model set](docs/model_sets.md) that can be plotted to "get a grasp" on how a
 parameter influences the result.
 
 ## Man pages
