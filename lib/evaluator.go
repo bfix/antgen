@@ -33,7 +33,7 @@ func init() {
 
 // IsotropeEvaluate implements the Compare prototype
 // It returns a value representing how spherical the radiation pattern is.
-func IsotropeEvaluate(p Performance, args string, feedZ complex128) (val float64) {
+func IsotropeEvaluate(p *Performance, args string, feedZ complex128) (val float64) {
 	// metric value is log(∑error² + 1)
 	val = -10 * math.Log10(p.Rp.Spherical()+1)
 
@@ -51,7 +51,7 @@ func IsotropeEvaluate(p Performance, args string, feedZ complex128) (val float64
 }
 
 // Gmin evaluator (minimizing Gmax)
-func GminEvaluate(p Performance, args string, feedZ complex128) (val float64) {
+func GminEvaluate(p *Performance, args string, feedZ complex128) (val float64) {
 	val = -p.Gain.Max
 
 	// handle argument

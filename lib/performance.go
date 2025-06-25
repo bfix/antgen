@@ -44,7 +44,7 @@ type Performance struct {
 }
 
 // String returns a human-readable performance text
-func (p Performance) String() string {
+func (p *Performance) String() string {
 	if p.Gain == nil {
 		return ""
 	}
@@ -53,20 +53,20 @@ func (p Performance) String() string {
 }
 
 // SWR for (unmatched) antenna at source impedance
-func (p Performance) SWR(Zs complex128) float64 {
+func (p *Performance) SWR(Zs complex128) float64 {
 	g := cmplx.Abs((p.Z - Zs) / (p.Z + Zs))
 	return (1 + g) / (1 - g)
 }
 
 // Loss (in dB) of transfering power from a source with impedance Zs to an
 // unmatched antenna with impedance r.Z
-func (p Performance) Loss(Zs complex128) float64 {
+func (p *Performance) Loss(Zs complex128) float64 {
 	s := p.SWR(Zs)
 	return 10 * math.Log10(4*s/Sqr(s+1))
 }
 
 // Power factor (in dB) of a matched antenna.
-func (p Performance) Attenuation(Zs complex128) float64 {
+func (p *Performance) Attenuation(Zs complex128) float64 {
 	// power factor (depends on phase shift between U and I)
 	pf := real(p.Z) / cmplx.Abs(p.Z) // math.Cos(cmplx.Phase(r.Z))
 	return 10 * math.Log10(pf)
@@ -74,7 +74,7 @@ func (p Performance) Attenuation(Zs complex128) float64 {
 
 // Resonance is the "virtual loss" (in dB) due to antenna reactance.
 // No loss implies resonance.
-func (p Performance) Resonance() float64 {
+func (p *Performance) Resonance() float64 {
 	// r = 1 / (1 + Zi^2)
 	return math.Log10(1 / (1 + imag(p.Z)*imag(p.Z)))
 }
@@ -82,7 +82,7 @@ func (p Performance) Resonance() float64 {
 //----------------------------------------------------------------------
 
 // Evaluate performance (metric value optimized to maximum)
-type Evaluate func(perf Performance, args string, feedZ complex128) float64
+type Evaluate func(perf *Performance, args string, feedZ complex128) float64
 
 // CustomEvaluators is a list of custom comparator implementations
 var CustomEvaluators = make(map[string]Evaluate)
@@ -118,23 +118,36 @@ func NewComparator(target string, spec *Specification) (cmp *Comparator, err err
 		eval, ok := CustomEvaluators[parts[0]]
 		var args string
 		if !ok {
-			// not a custom eval; check for plugin
-			if len(parts) > 1 && strings.HasPrefix(parts[1], "plugin:") {
-				piArgs := strings.Split(parts[1], ":")
-				if len(piArgs) < 2 {
+			// not a custom eval; check for plugin or LUA script
+			ref := strings.SplitN(parts[0], ":", 2)
+			switch ref[0] {
+			case "plugin":
+				if len(ref) < 2 {
 					log.Fatal("incomplete plugin specification")
 				}
 				var pi *plugin.Plugin
-				if pi, err = GetPlugin(piArgs[1]); err != nil {
+				if pi, err = GetPlugin(ref[1]); err != nil {
 					log.Fatal(err)
 				}
 				if eval, err = GetSymbol[Evaluate](pi, "Evaluate"); err != nil {
 					log.Fatal(err)
 				}
-				if len(piArgs) > 2 {
-					args = piArgs[2]
+				if len(parts) > 1 {
+					args = parts[1]
 				}
-			} else {
+			case "lua":
+				if len(ref) < 2 {
+					log.Fatal("incomplete LUA script specification")
+				}
+				ev, err := NewLuaEvaluator(ref[1])
+				if err != nil {
+					log.Fatal(err)
+				}
+				eval = ev.Evaluate
+				if len(parts) > 2 {
+					args = parts[1]
+				}
+			default:
 				// standard evaluator
 				if len(parts) > 1 {
 					args = parts[1]
@@ -156,14 +169,14 @@ func NewComparator(target string, spec *Specification) (cmp *Comparator, err err
 }
 
 // Value returns the evaluated value from perfomance data.
-func (cmp *Comparator) Value(p Performance) (val float64) {
+func (cmp *Comparator) Value(p *Performance) float64 {
 	target := cmp.targets[cmp.pos]
 	args := cmp.args[target]
 	return cmp.eval[cmp.pos](p, args, cmp.spec.Source.Impedance())
 }
 
 // standard evaluation
-func (cmp *Comparator) value(p Performance, args string, feedZ complex128) (val float64) {
+func (cmp *Comparator) value(p *Performance, args string, feedZ complex128) (val float64) {
 	switch cmp.targets[cmp.pos] {
 	case "Gmax":
 		// opt for best directional pattern
@@ -207,7 +220,7 @@ func (cmp *Comparator) value(p Performance, args string, feedZ complex128) (val 
 
 // Compare antenna results based on the optimization target.
 // Returns 0 if same, -1 if worse, 1 if better
-func (cmp *Comparator) Compare(curr, old Performance) (sign int, val float64) {
+func (cmp *Comparator) Compare(curr, old *Performance) (sign int, val float64) {
 	// handle incomplete/invalid performances
 	if old.Gain == nil {
 		if curr.Gain != nil {

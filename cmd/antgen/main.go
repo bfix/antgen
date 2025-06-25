@@ -181,7 +181,7 @@ func main() {
 	// run optimization in goroutine to allow rendering
 	var steps []string
 	var step int
-	var iniPerf lib.Performance
+	var iniPerf *lib.Performance
 	optimize := func(render lib.Canvas) (total lib.Stats) {
 		// callback for opt iteration
 		cb := func(ant *lib.Antenna, pos int, msg string) {

@@ -21,7 +21,9 @@
 package lib
 
 import (
+	"log"
 	"math/rand"
+	"os"
 	"strconv"
 	"strings"
 
@@ -119,4 +121,82 @@ func (g *LuaGenerator) Info() string {
 // Volatile returns true if the generator is randomized
 func (g *LuaGenerator) Volatile() bool {
 	return true
+}
+
+//----------------------------------------------------------------------
+
+// LuaEvaluator provides an Evaluate() function for optimization
+// written in LUA script.
+type LuaEvaluator struct {
+	script string     // script filename
+	prgm   string     // program
+	state  *lua.State // state of LUA VM
+
+	perf   *Performance // performance to evaluate
+	args   string       // target mode
+	feedZ  complex128   // source impedance
+	result float64      // return value
+}
+
+// NewLuaEvaluator instantiates a new LUA evaluator:
+// 'param' is of form '<script filename>:<opt1>=<val>,<opt2>=...'
+func NewLuaEvaluator(script string) (ev *LuaEvaluator, err error) {
+	var data []byte
+	if data, err = os.ReadFile(script); err != nil {
+		return
+	}
+	ev = new(LuaEvaluator)
+	ev.script = script
+	ev.prgm = string(data)
+	ev.state = lua.NewState()
+	lua.OpenLibraries(ev.state)
+
+	ev.state.Register("source", func(state *lua.State) int {
+		state.PushNumber(real(ev.feedZ))
+		state.PushNumber(imag(ev.feedZ))
+		return 2
+	})
+	ev.state.Register("args", func(state *lua.State) int {
+		state.PushString(ev.args)
+		return 1
+	})
+	ev.state.Register("perf_gain", func(state *lua.State) int {
+		state.PushNumber(ev.perf.Rp.Min)
+		state.PushNumber(ev.perf.Gain.Max)
+		state.PushNumber(ev.perf.Gain.Mean)
+		state.PushNumber(ev.perf.Gain.SD)
+		return 4
+	})
+	ev.state.Register("perf_z", func(state *lua.State) int {
+		state.PushNumber(real(ev.perf.Z))
+		state.PushNumber(imag(ev.perf.Z))
+		return 2
+	})
+	ev.state.Register("perf_rp_idx", func(state *lua.State) int {
+		state.PushInteger(ev.perf.Rp.NPhi)
+		state.PushInteger(ev.perf.Rp.NTheta)
+		return 2
+	})
+	ev.state.Register("perf_rp_val", func(state *lua.State) int {
+		phi, _ := state.ToInteger(1)
+		theta, _ := state.ToInteger(2)
+		state.PushNumber(ev.perf.Rp.Values[phi][theta])
+		return 1
+	})
+	ev.state.Register("result", func(state *lua.State) int {
+		ev.result, _ = state.ToNumber(1)
+		return 0
+	})
+
+	return
+}
+
+// Evaluate antenna performance and return result
+func (ev *LuaEvaluator) Evaluate(perf *Performance, args string, feedZ complex128) float64 {
+	ev.perf, ev.args, ev.feedZ = perf, args, feedZ
+
+	if err := lua.DoString(ev.state, ev.prgm); err != nil {
+		log.Fatal(err)
+	}
+	return ev.result
 }

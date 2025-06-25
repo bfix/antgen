@@ -123,6 +123,29 @@ The following modes are defined:
 
 ## Custom evaluators
 
-Custom evaluator can either be implemented directly in the code
-base (see `lib/evaluator.go`) or by using plug-ins exporting an `Evaluate`
-function (see `lib/plugin.go`).
+Custom evaluator can either be implemented by using plug-ins
+exporting an `Evaluate` function (see `lib/plugin.go`) or
+through LUA scripts (the least elaborate and recommended way).
+
+### LUA scripts
+
+A LUA script can be used to implement a custom evaluator:
+
+* The script uses functions to retrieve the data for evaluation:
+
+  * `args() => <argument string>`: Get argument
+  * `perf_gain() => Gmin,Gmax,Gmean,SD`: Get antenna gain
+  * `perf_z() => Zr,Zi`: Get antenna impedance
+  * `perf_rp_idx() => nPhi,nTheta`: Return number of indices (radiation pattern)
+  * `perf_rp_val(phi,theta) => val`: Return gain in given direction
+  * `source() => Zr,Zi`: Get source impedance
+
+* The script computes a result (floating point number) related to the custom
+optimization target and returns it by calling `result(<number>)`.
+
+#### Example
+
+The following LUA script replicates the behaviour of the "Gmax" target:
+
+    local _, gmax, _, _ = perf_gain()
+    result(gmax)

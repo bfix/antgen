@@ -30,11 +30,11 @@ import (
 
 // Antenna geometry, parameter and performance
 type Antenna struct {
-	kind   string      // kind of antenna
-	segs   []Line      // antenna geometry (build from segments)
-	excite int         // position of exitation segment
-	Lambda float64     // wavelength at operating frequency
-	Perf   Performance // antenna performance
+	kind   string       // kind of antenna
+	segs   []Line       // antenna geometry (build from segments)
+	excite int          // position of exitation segment
+	Lambda float64      // wavelength at operating frequency
+	Perf   *Performance // antenna performance
 }
 
 // NewAntenna instantiates a new kind of antenna
@@ -142,6 +142,7 @@ func (a *Antenna) Eval(freq int64, wire Wire, ground Ground) (err error) {
 	}
 
 	// get simulated preformance result
+	a.Perf = new(Performance)
 	a.Perf.Gain = new(Gain)
 	if a.Perf.Gain.Max, err = ctx.GainMax(0); err != nil {
 		return
