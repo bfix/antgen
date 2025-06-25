@@ -30,7 +30,7 @@ func TestLuaGenerator(t *testing.T) {
 	segL := 0.008
 	rnd := Randomizer(123456)
 
-	g, err := GetGenerator("lua:scr=generator_test.lua,bendMax=num:0.1", float64(num)*segL)
+	g, err := GetGenerator("lua:generator_test.lua:bendMax=num:0.1", float64(num)*segL)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -99,7 +99,8 @@ antenna wire, ...).
   * `seed`: randomization seed [1000]
 
   Optimizations are stored in (sub-)directories corresponding to their
-  parameters; all models in a directory belong to the same *model set*.
+  parameters; all models in a directory belong to the same
+  [model set](tree/main/docs/model_sets.md).
 
   The directories created by `runOpts.sh` have the form
   `<band>/<wire>/<gen>/<target>` where `<band>` is the frequency band
@@ -131,6 +132,8 @@ a V-dipole).
 
 ### Optimization
 
+#### Basics
+
 To enable optimization, a dipole leg in the computer model does not consist of
 "one piece of wire", but is made up of many short segments of equal length.
 These segments touch at their end points and form an angle with the previous
@@ -147,48 +150,64 @@ This allows almost any antenna geometry to be simulated at a defined frequency
 and to calculate antenna properties such as impedance and spatial radiation
 characteristics. The performance of an antenna is described by the following
 variables: maximum gain ($Gmax$), average gain ($Gmean\pm SD$), impedance
-$Z=R+jX$ and radiated power $G(\Phi,\Theta)$ at azimuth ($\Theta$) and
-elevation ($\Phi$). These performance values are used to evaluate antennas
-performances during optimization.
+$Z=R+jX$ and radiated power $G(\phi,\theta)$ at azimuth ($\theta$) and
+elevation ($\phi$). These performance values are used to compare antennas
+performances during optimization (see
+[evaluators](tree/main/docs/evaluators.md)).
 
 The optimization performs two basic steps:
 
 1. An initial geometry is created, i.e. the segments are generated and the
 corresponding angles $\alpha_i$ are set. Depending on the specification,
 a straight dipole, a V-dipole with an opening angle or a random geometry can
-be created. The performance value $L_1$ of the initial antenna is
+be created. The performance value $P_1$ of the initial antenna is
 calculated.
 
 2. *This step is repeated until no further optimization is possible:* a
 random angle $\alpha_i$ is changed by a small, also random amount. The
-performance value $L_2$ of the new antenna geometry ist calculated and
-compared with $L_1$ under the selected optimization target:
+performance value $P_2$ of the new antenna geometry ist calculated and
+compared with $P_1$ under the selected optimization target
+([evaluator](tree/main/docs/evaluators.md)):
 
-    * If $L_2$ is worse than $L_1$, the change at angle
+    * If $P_2$ is worse than $P_1$, the change at angle
     $\alpha_i$ is discarded.
-    * If $L_2$ is better than L</sub>1</sub>, then $L_1$ is
-    replaced by $L_2$. However, if the improvement is too small, the
-    optimization is terminated.
+    * If $P_2$ is better than $P_1$, then $P_1$ is replaced by $P_2$.
+    However, if the improvement is too small, the optimization is terminated.
 
-### Model sets
+#### Strategies
 
-If you optimize a single antenna at a given frequency, the resulting antenna
-has (in nearly all cases) a better performance than the initial antenna, but
-it is impossible to say if that result is the optimum - maybe the optimization
-(at the same frequency) for a shorter or longer antenna is even better.
+If you optimize a single antenna at a given set of parameters (frequency, leg
+length, ...) the resulting antenna has (in nearly all cases) a better
+performance than the initial antenna, but it is impossible to say if that
+result is the optimum - maybe the optimization (at the same frequency) for a
+shorter or longer antenna is even better.
 
-The approach followed by `antgen` is to keep all optimization parameters
-unchanged and only to vary the leg length. The resulting models are stored in
-the same directory to create a model set. For example: a set can include all
-optimized antennas with a leg length between 0.1λ and 0.9λ with a step of
-0.005λ (resulting in 161 models).
+This can be explained with an analogy: Imagine you are somewhere in mountainous
+terrain and want to climb the highest mountain. Unfortunately, the fog is so
+thick that you can only see one step ahead in any direction, but your GPS shows
+you your current altitude. Your strategy (algorithm) is: turn in a random
+direction and make one step forward. If you have gained altitude, stop and
+repeat the process. If your new altitude is lower than before, take a step back,
+turn in a different direction and repeat the process. If you can no longer move
+in any direction (because you would always go downhill), then you have reached
+a summit. But is that also the highest peak? With a lot of luck, yes, but in
+most cases you have landed on top of a smaller mountain. In order to reach the
+highest peak from your starting position, you may have to go downhill from time
+to time - but the algorithm does not allow this.
 
-You can specify an additional parameter (e.g. the opening angle of a V-dipole)
-to add a second dimension to the model set.
+In `antgen` the optimization can virtually start from "different positions"
+and can thus reach different local maxima - perhaps even the "highest peak".
+The following major knobs and dials are in place:
 
-Model sets are not required per se, but additional functionality (like
-plotting) makes use of this approach. So it is possible to do a graph plot
-(e.g. Gmax vs. leg length) or even a heatmap if two parameters are used.
+* leg length
+* [initial geometry](generators.md)
+* optimization targets ([evaluators](tree/main/docs/evaluators.md))
+* randomization seed
+
+A useful approach is to vary one (or two) of these parameters/settings and
+to store all results in one directory - thus creating a
+[model set](model_sets.md) that can be plotted to "get a grasp" on how a
+parameter influences the result.
 
 ## Man pages
 
@@ -225,9 +244,13 @@ outputs multiple files in the output directory (`-out`):
 
 #### Options
 
-* `-config <cfg.json>`: Specify configuration file. The default configuration
-can be found in `lib/config.json`. Only changed values need to be included in
-a custom configuration (default configuration used if option not specified).
+* `-config <cfg.json>`: Specify configuration file.
+
+  The default configuration can be found in `lib/config.json`. Only changed
+  values need to be included in a custom configuration (default configuration
+  used for unspecified entries).
+
+  Details can be found in the [configuration section](tree/main/docs/config.md).
 
 * `-freq <freq>|[<range>]`: The frequency range for the antenna. If a range
 is specified, the antenna is optimized for the center frequency. Defaults
@@ -235,11 +258,10 @@ to `430M-440M` (70cm band).
 
 * `-k <value>`: Length of a dipole leg (in λ, defaults to `0.25`).
 
-  The `-k` value is the primary variable in model sets
+  The `-k` value is (usually) the primary dimension in
+  [model sets](tree/main/docs/model_sets.md).
 
-* `-wire`: Wire parameters, formated as `<dia>:&<mat>` or
-`<dia>:<conductivity>:<inductance>`. `<mat>` must be a defined material
-(see `lib/material.go`).
+* `-wire`: [Wire parameters](tree/main/docs/wire.md)
 
 * `-ground`: Ground parameters as a list of key/value pairs (`<key>=<value>`).
 The following keys are defined:
@@ -250,33 +272,35 @@ The following keys are defined:
   * `epse`: relative dielectric constant for ground in the vicinity of the antenna
   * `sig`: conductivity in mhos/meter of the ground in the vicinity of the antenna
 
+  By default (missing `-ground` spec) the antenna is placed in free-space.
+
+  Ground parameters are closely linked to the
+  [NEC2 Ground card (GN)](https://nec2.org/part_3/cards/gn.html) entries.
+
 * `-source`: feed parameters:
   * `Z`: Source impedance (can be complex e.g. "50+j2")
   * `Pwr`: Power sent to antenna (in W)
 
-* `-model`: Model selection (default: "bend2d")
+* `-model`: Optimization model selection (default: "bend2d")
   * `bend2d`: two-dimensional bending
 
 * `-opt <target>[=<mode>]`: Optimization target (default: "Gmax")
 
-  Without a `<mode>` argument, the antenna is optimized only for the target.
-  Where applicable the following `mode`s are possible:
-  * `unmatched`: the loss due to impedance mismatch is applied to the
-  target value.
-  * `matched`: the loss due to phase shift in a matched antenna is applied.
-  * `resonant`: the impedance of the antenna is optimized towards resonance
-  (no reactive impedance).
-
-  The following optimization targets are pre-defined:
+  The following optimization targets are pre-defined; their behaviour is
+  controlled by an (optional) mode argument:
 
   * `Gmax`: Optimize for larger gain (directional radiator)
   * `Gmin`,`Gmean`,`SD`, `isotrope`: Optimize for quasi-isotropic radiator
-  * `Z`: Optimize for impedance match with source (no modes)
+  * `Z`: Optimize for impedance match with source
 
-  Custom optimization targets can either be implemented directly in the code
-  base (see `lib/evaluator.go`) or by using plug-ins exporting an `Evaluate`
-  function (see `lib/plugin.go`).
+  It is possible to stack optimizations like `-opt target1,target2,target3`.
+  `antgen` will optimize for `target1` first until a (local) optimum is
+  reached. It then optimizes for `target2` (using the final geometry of
+  `target1` as initial geometry); at last `antgen` optimizes for
+  `target3` (using the final geometry of `target2` as initial geometry).
 
+  Details about evaluators can be found in the documentation on [optimization targets](tree/main/docs/evaluators.md).
+  
 * `-gen`: Generator for initial geometry (default: `stroll`)
 
   The following generators are built-in:
@@ -287,30 +311,11 @@ The following keys are defined:
   * `stroll`: Random walk on the leg side
   * `trespass`: Random walk without constraints
   * `geo`: Use geometry file as input; parameter specifies the filename
+  * `lua`: Use LUA script to generate initial geometry (custom generator)
 
-  Custom generators (see `lib/generator.go`) can be implemented in the code
-  base or as external LUA scripts. A LUA generator can be used with
-  `-gen lua:scr=<script>[,<param>,...]` where `<script>` is a
-  LUA script. Additional parameters for the script can be set by adding
-  comma-separated entries of the form `<var1>=[<type>:]<value>`. `type`
-  can be `int` (for integers) or `num` (for floating point numbers); if `type`
-  is missing, `value` is assumed to be a string.
-
-  E.g. using `-gen lua:scr=walk.lua,bendMax=num:0.1` with the following script
-
-      local dir = 0.0
-      local rectAng = math.pi / 2
-      for i = 0,num-1,1 do
-          local ang = 2 * (rnd() - 0.5) * bendMax
-          if math.abs(dir+ang) > rectAng then
-              ang = -ang
-          end
-          setAngle(i,ang)
-          dir = dir+ang
-      end
-
-  will work like the built-in `walk` generator.
-
+  Details can be found in the
+  [documentation on generators](tree/main/docs/generators.md).
+  
 * `-seed`: Randomizer seed (generator/optimizer) (default: `1000`)
 
   The seed is relevant for generating an initial geometry (e.g.
@@ -371,14 +376,15 @@ Import antenna models into the database.
 
 Run a plot server that can be used with a browser.
 
+###### Options
+
 * `-l`: Listen address for web GUI (default: "localhost:12345")
 * `-p`: Prefix for URLs
 
 In a browser open the URL `http://localhost:12345` and you will see the
 plotting user interface. Select a target value to plot and one or more
-model sets (Directories):
-
-![XY plot](docs/images/plot-1.png)
+[model sets](tree/main/docs/model_sets.md) (Directories). More information
+can be found in the [plotting section](tree/main/docs/plotting.md).
 
 ##### `plot-file`
 

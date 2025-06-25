@@ -99,7 +99,7 @@ func main() {
 		err error
 	)
 	flag.StringVar(&config, "config", "", "configuration file")
-	flag.StringVar(&freqS, "freq", "430M-440M", "Frequency (default: 430M-440M)")
+	flag.StringVar(&freqS, "freq", "", "Frequency (default: 430M-440M)")
 	flag.Float64Var(&k, "k", lib.Cfg.Def.K, "side extend kλ (default: 0.25λ)")
 	flag.StringVar(&wireS, "wire", "", "wire parameter")
 	flag.StringVar(&groundS, "ground", "", "antenna height")
@@ -141,8 +141,10 @@ func main() {
 		log.Fatal(err)
 	}
 	// change specified source frequency (range)
-	if spec.Source.Freq, spec.Source.Span, err = lib.GetFrequencyRange(freqS); err != nil {
-		log.Fatal(err)
+	if len(freqS) > 0 {
+		if spec.Source.Freq, spec.Source.Span, err = lib.GetFrequencyRange(freqS); err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	// handle ground parameters

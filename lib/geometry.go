@@ -39,6 +39,9 @@ type Geometry struct {
 //----------------------------------------------------------------------
 
 func Smooth2D(nodes []Node, rng int) (out []Node) {
+	if rng < 1 {
+		return nodes
+	}
 	num := len(nodes)
 	out = make([]Node, num)
 	for i := range out {

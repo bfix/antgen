@@ -39,9 +39,7 @@
         "segMinWire": 4,
         "minRadius": 0.02
     },
-    "plugins": {
-        "isotrope": "./isotrope_comparator.so"
-    },
+    "plugins": {},
     "render": {
         "canvas": "sdl",
         "width": 1024,

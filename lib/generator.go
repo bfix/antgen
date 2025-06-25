@@ -113,7 +113,7 @@ func (g *GenStraight) Init(params string, lambda float64) error {
 // of equal length 'segL'.
 func (g *GenStraight) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
 	nodes := make([]Node, num)
-	for i := 0; i < num; i++ {
+	for i := range num {
 		nodes[i] = NewNode2D(segL, 0)
 	}
 	return nodes
@@ -184,7 +184,7 @@ func (g *GenV) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
 	}
 	dAng := g.ang / float64(rnum)
 	nodes := make([]Node, num)
-	for i := 0; i < num; i++ {
+	for i := range num {
 		ang := 0.
 		if i < rnum {
 			ang = dAng
@@ -248,7 +248,7 @@ func (g *GenWalk) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
 	bendMax := BendMax(Cfg.Sim.MinRadius*g.lambda, segL)
 	nodes := make([]Node, num)
 	dir := 0.
-	for i := 0; i < num; i++ {
+	for i := range num {
 		ang := 2 * (rnd.Float64() - 0.5) * bendMax
 		if math.Abs(dir+ang) > RectAng {
 			ang = -ang
@@ -315,7 +315,7 @@ func (g *GenStroll) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
 	nodes := make([]Node, num)
 	dir := 0.
 	x := 0.
-	for i := 0; i < num; i++ {
+	for i := range num {
 		ang := 2 * (rnd.Float64() - 0.5) * bendMax
 		xn := x + segL*math.Cos(dir+ang)
 		if xn < 4*segL && InRange(dir, RectAng, 3*RectAng) {
@@ -437,7 +437,7 @@ func (g *GenTrespass) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
 	bendMax := BendMax(Cfg.Sim.MinRadius*g.lambda, segL)
 	nodes := make([]Node, num)
 	dir := 0.
-	for i := 0; i < num; i++ {
+	for i := range num {
 		ang := 2 * (rnd.Float64() - 0.5) * bendMax
 		nodes[i] = NewNode2D(segL, ang)
 		dir += ang

@@ -21,7 +21,6 @@
 package lib
 
 import (
-	"errors"
 	"math/rand"
 	"strconv"
 	"strings"
@@ -32,6 +31,7 @@ import (
 // LuaGenerator is a generator where the Nodes() method is implemented
 // as a LUA script.
 type LuaGenerator struct {
+	script string            // script filename
 	params map[string]string // map of parameters
 	lambda float64           // wavelength
 	state  *lua.State        // state of LUA VM
@@ -40,19 +40,20 @@ type LuaGenerator struct {
 
 // Init generator with given parameters
 func (g *LuaGenerator) Init(param string, lambda float64) error {
+	g.lambda = lambda
 	g.params = make(map[string]string)
-	for _, p := range strings.Split(param, ",") {
-		kv := strings.SplitN(p, "=", 2)
-		if len(kv) == 2 {
-			g.params[kv[0]] = kv[1]
-		} else {
-			g.params[kv[0]] = ""
+	list := strings.SplitN(param, ":", 2)
+	g.script = list[0]
+	if len(list) > 1 {
+		for _, p := range strings.Split(list[1], ",") {
+			kv := strings.SplitN(p, "=", 2)
+			if len(kv) == 2 {
+				g.params[kv[0]] = kv[1]
+			} else {
+				g.params[kv[0]] = "bool:true"
+			}
 		}
 	}
-	if _, ok := g.params["scr"]; !ok {
-		return errors.New("no script specified")
-	}
-	g.lambda = lambda
 	g.state = lua.NewState()
 	lua.OpenLibraries(g.state)
 	return nil
@@ -87,12 +88,15 @@ func (g *LuaGenerator) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
 		case "num":
 			val, _ := strconv.ParseFloat(vv[1], 64)
 			g.state.PushNumber(val)
+		case "bool":
+			val, _ := strconv.ParseBool(vv[1])
+			g.state.PushBoolean(val)
 		default:
 			g.state.PushString(vv[1])
 		}
 		g.state.SetGlobal(k)
 	}
-	if err := lua.DoFile(g.state, g.params["scr"]); err != nil {
+	if err := lua.DoFile(g.state, g.script); err != nil {
 		panic(err)
 	}
 	nodes := make([]Node, num)
@@ -104,7 +108,7 @@ func (g *LuaGenerator) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
 
 // Name of generator
 func (g *LuaGenerator) Name() string {
-	return g.params["scr"]
+	return g.script
 }
 
 // Info about generator
