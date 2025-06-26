@@ -349,7 +349,8 @@ To find "good" optimizations a lot of parameter combinations need to be tried
 
 ### `tabula`
 
-Manages a SQLite3 database of the metadata of optimized antennas.
+Manages a [SQLite3 database of the metadata](docs/database.md) of optimized
+antennas:
 
     tabula -db <database> -in <base directory> <command> <options>
 
@@ -370,7 +371,7 @@ Import antenna models into the database.
 * `-set`: Set selection for partial import (default: "")
 
   A set is a relative directory path below `-in`. If not set, all sets below
-  the base directory are recursivly processed.
+  the base directory are recursivly imported.
 
 ##### `plot-srv`
 
