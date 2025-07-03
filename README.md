@@ -215,7 +215,7 @@ parameter influences the result.
 
 Optimize a dipole for a given frequency (`-freq`); if a frequency range is
 specified, optimize for the center frequency. The range info (if available)
-is used to generate a matching "FR" card for NEC2.
+is used to generate a matching [`FR` card for NEC2](https://nec2.org/part_3/cards/fr.html).
 
 The antenna is made out of a wire with specific properties (`-wire`) and is
 possibly mounted over ground (`-ground`). The half-length of the dipole is

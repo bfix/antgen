@@ -49,8 +49,6 @@ func showBest(db *lib.Database, in string, args []string) {
 	fs.StringVar(&zRange, "zRange", "any", "impedance range: [min_Zr,max_Zr,|Zi|]")
 	fs.Parse(args)
 
-	set := in + "/" + band
-
 	// handle impedance range
 	var zClause string
 	addZ := func(s string) {
@@ -143,7 +141,7 @@ func showBest(db *lib.Database, in string, args []string) {
 	for _, r := range rows {
 		_, dir, tag := r.Reference()
 		if strings.HasPrefix(dir, band) {
-			f := set + "/" + dir + "/geometry-" + tag + ".json"
+			f := in + "/" + dir + "/geometry-" + tag + ".json"
 			geos = append(geos, f)
 		}
 	}
@@ -186,7 +184,7 @@ func showBest(db *lib.Database, in string, args []string) {
 			if err = ant.Eval(spec.Source.Freq, spec.Wire, spec.Ground); err != nil {
 				log.Fatal(err)
 			}
-			name := strings.TrimPrefix(path, set)
+			name := strings.TrimPrefix(path, in)
 			render.Show(ant, -1, name)
 			if rc := <-cont; rc < 0 {
 				break
