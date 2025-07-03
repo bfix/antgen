@@ -23,7 +23,7 @@ package lib
 import "testing"
 
 func TestMaterialProps(t *testing.T) {
-	for mat := range material {
+	for mat := range Cfg.Mat {
 		c, i, err := MaterialProperties(mat, 0.002)
 		if err != nil {
 			t.Fatal(err)

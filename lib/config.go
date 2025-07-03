@@ -55,6 +55,12 @@ type Simulation struct {
 	MinRadius    float64 `json:"minRadius"`    // min. curve radius (in wavelength)
 }
 
+// Material spec for wires
+type Material struct {
+	Conductivity float64 `json:"conductivity"` // wire conductivity (S/m)
+	Inductance   float64 `json:"inductance"`   // wire inductance (H/m)
+}
+
 // RenderConfig for rendering-related settings
 type RenderConfig struct {
 	Canvas string `json:"canvas"` // render engine/canvas
@@ -64,18 +70,24 @@ type RenderConfig struct {
 
 // Config for AntGen
 type Config struct {
-	Def     *Default          `json:"default"`
-	Sim     *Simulation       `json:"simulation"`
-	Plugins map[string]string `json:"plugins"`
-	Render  *RenderConfig     `json:"render"`
+	Def     *Default             `json:"default"`
+	Sim     *Simulation          `json:"simulation"`
+	Mat     map[string]*Material `json:"material"`
+	Render  *RenderConfig        `json:"render"`
+	Plugins map[string]string    `json:"plugins"`
 }
 
 // Cfg is the globally-accessible configuration (pre-set)
 var Cfg = &Config{
 	// default values (command-line options)
 	Def: &Default{
-		K:    0.25,
-		Wire: GetWire("CuL", 0.002),
+		K: 0.25,
+		Wire: Wire{
+			Diameter:     0.002,
+			Material:     "CuL",
+			Conductivity: 5.96e7,
+			Inductance:   1.54e-7,
+		},
 		Ground: Ground{
 			Height: 0,
 			Mode:   0,
@@ -96,7 +108,7 @@ var Cfg = &Config{
 		// optimization parameters (termination conditions)
 		MaxRounds:     5,
 		MinZr:         1,
-		MaxZr:         3000,
+		MaxZr:         20000,
 		MinChange:     0.001,
 		ProgressCheck: 10,
 		MinBend:       0.01,
@@ -112,14 +124,29 @@ var Cfg = &Config{
 		SegMinWire:   4,
 		MinRadius:    0.02,
 	},
-	// no pre-defined plugins
-	Plugins: make(map[string]string),
 	// rendering parameters
 	Render: &RenderConfig{
 		Canvas: "sdl",
 		Width:  1024,
 		Height: 768,
 	},
+	// wire materials
+	Mat: map[string]*Material{
+		"Cu": { // cupper wire
+			5.96e7,      // conductivity (S/m)
+			1.320172e-6, // inductance (H/m)
+		},
+		"CuL": { // emailled copper wire
+			5.96e7,  // conductivity (S/m)
+			1.54e-7, // inductance (H/m)
+		},
+		"Al": { // Aluminium
+			3.5e7,      // conductivity (S/m)
+			1.32021e-6, // inductance (H/m)
+		},
+	},
+	// no pre-defined plugins
+	Plugins: make(map[string]string),
 }
 
 // ReadConfig from file

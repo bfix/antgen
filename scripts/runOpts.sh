@@ -151,8 +151,6 @@ straight Z Z 1 2 3
 stroll Z stroll/Z 200 240 5
 stroll Z stroll/Z 670 740 5
 
-exit
-
 #-----------------------------------------------------------------------
 
 # optimize for highest gain

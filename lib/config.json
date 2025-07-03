@@ -27,7 +27,7 @@
     "simulation": {
         "maxRounds": 5,
         "minZr": 1,
-        "maxZr": 3000,
+        "maxZr": 20000,
         "minChange": 0.001,
         "progressCheck": 10,
         "minBend": 0.01,

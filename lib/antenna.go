@@ -125,7 +125,7 @@ func (a *Antenna) Eval(freq int64, wire Wire, ground Ground) (err error) {
 	if err = ctx.FrCard(necpp.Linear, 1, float64(freq)/1e6, 0); err != nil {
 		return
 	}
-	if err = ctx.ExCard(necpp.VoltageApplied, a.excite, 1, 0, Cfg.Sim.ExciteU, 0, 0, 0, 0, 0); err != nil {
+	if err = ctx.ExCard(necpp.VoltageApplied, a.excite+1, 1, 0, Cfg.Sim.ExciteU, 0, 0, 0, 0, 0); err != nil {
 		return
 	}
 

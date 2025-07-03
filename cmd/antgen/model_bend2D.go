@@ -174,7 +174,7 @@ func (mdl *ModelBend2D) optBend(iter int, cmp *lib.Comparator, cb lib.Callback) 
 		sims++
 
 		// NEC2 safe-guard: terminate optimization if resistance
-		// goes below 1Ω or above 3kΩ (defaults, can use custom range)
+		// goes below 1Ω or above 20kΩ (defaults, can use custom range)
 		if r := real(ant.Perf.Z); r < lib.Cfg.Sim.MinZr || r > lib.Cfg.Sim.MaxZr {
 			break
 		}

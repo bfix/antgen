@@ -76,19 +76,17 @@ func main() {
 		groundS string  // ground specification
 		sourceS string  // source parameters (without frequency)
 		k       float64 // fraction of wavelength for dipole half
-		Rload   string  // allowed range for load resistance
 
 		param float64 // free parameter
 		seed  int64   // seed for deterministic randomization
 		gen   string  // generator model to use
 
-		model  string  // optimization model to use (incl. parameters)
-		target string  // optimize for target [Gmax, GMean, SD, none]
-		minVal float64 // optimization must be better than given value
-		iter   int     // number of iterations; 0=no limit
-		vis    bool    // visualize optimizations
-		logr   bool    // log iteration results
-		warn   bool    // emit warnings
+		model  string // optimization model to use (incl. parameters)
+		target string // optimize for target [Gmax, GMean, SD, none]
+		iter   int    // number of iterations; 0=no limit
+		vis    bool   // visualize optimizations
+		logr   bool   // log iteration results
+		warn   bool   // emit warnings
 
 		tag     string // tag for output filename
 		outDir  string // directory for optimization output
@@ -104,13 +102,11 @@ func main() {
 	flag.StringVar(&wireS, "wire", "", "wire parameter")
 	flag.StringVar(&groundS, "ground", "", "antenna height")
 	flag.StringVar(&sourceS, "source", "", "feed parameters")
-	flag.StringVar(&Rload, "Rload", "", "allowed Rload range (optional)")
 
 	flag.StringVar(&gen, "gen", "stroll", "generator for initial geometry")
 
 	flag.StringVar(&model, "model", "bend2d", "model selection")
 	flag.StringVar(&target, "opt", "Gmax", "optimization target (default: Gmax)")
-	flag.Float64Var(&minVal, "minVal", -math.MaxFloat32, "minimum optimization value")
 
 	flag.Int64Var(&seed, "seed", 1000, "model seed")
 	flag.IntVar(&iter, "iter", 0, "optimization iterations")
@@ -150,14 +146,6 @@ func main() {
 	// handle ground parameters
 	if spec.Ground, err = lib.ParseGround(groundS, warn); err != nil {
 		log.Fatal(err)
-	}
-
-	// parse allowed range for antenna resistance
-	RlMin, RlMax := 0., math.MaxFloat32
-	if len(Rload) > 0 {
-		if RlMin, RlMax, err = lib.GetRange(Rload); err != nil {
-			log.Fatal(err)
-		}
 	}
 
 	// get generator model
@@ -249,13 +237,6 @@ func main() {
 	}
 	log.Printf("Model #%s: %s (%d/%d/%d in %s)\n", tag, ant.Perf.String(),
 		total.NumMthds, total.NumSteps, total.NumSims, total.Elapsed)
-	if minVal > cmp.Value(ant.Perf) {
-		log.Fatal("No improvement...")
-	}
-	Rl := real(ant.Perf.Z)
-	if Rl < RlMin || Rl > RlMax {
-		log.Fatal("Rl out of range...")
-	}
 	if !logr {
 		steps = nil
 	}

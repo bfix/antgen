@@ -23,44 +23,16 @@ package lib
 import (
 	"fmt"
 	"log"
-	"math"
 )
-
-// wire material properties used in simulation
-type matProp struct {
-	conductivity float64 // unit: S/m
-	permeability float64 // relative to μ₀ (unit: H/m)
-	permittivity float64 // relative to ε₀ (unit: F/m)
-}
-
-// list of known materials
-var material = map[string]matProp{
-	"Cu": { // Kupferdraht
-		5.96e7,    // conductivity (S/m)
-		0.9999936, // relative permeability (H/m)
-		1.108,     // relative permittivity (F/m)
-	},
-	"CuL": { // Kupferlackdraht
-		5.96e7,    // conductivity (S/m)
-		0.1166507, // relative permeability (H/m)
-		1.108,     // relative permittivity (F/m)
-	},
-	"Al": { // Aluminium
-		3.5e7,     // conductivity (S/m)
-		1.0000220, // relative permeability (H/m)
-		1.3,       // relative permittivity (F/m)
-	},
-}
 
 // MaterialProperties returns material properties for label
 func MaterialProperties(label string, dia float64) (conductivity, inductance float64, err error) {
-	mp, ok := material[label]
+	mp, ok := Cfg.Mat[label]
 	if !ok {
 		err = fmt.Errorf("unknown material '%s'", label)
 	} else {
-		conductivity = mp.conductivity
-		// compute inductance
-		inductance = (Mu_0 * mp.permeability / CircAng) * (math.Log(4/dia) - 1)
+		conductivity = mp.Conductivity
+		inductance = mp.Inductance
 	}
 	return
 }

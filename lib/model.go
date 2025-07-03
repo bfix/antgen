@@ -262,15 +262,16 @@ type Model interface {
 func ModelWings(k float64, spec *Specification) (num int, segL float64) {
 	// check if wire diameter works for wavelength
 	// NEC2: wire << lambda / 2π
-	if a := Cfg.Sim.WireMax * spec.Source.Lambda(); spec.Wire.Diameter > a {
+	lambda := spec.Source.Lambda()
+	if a := Cfg.Sim.WireMax * lambda; spec.Wire.Diameter > a {
 		spec.Wire.Diameter = a
 	}
 	// compute segment length with lower bound
-	// NEC2: dx > segMin*/500, dx > SegRatio*wire
-	dx := max(Cfg.Sim.SegMinLambda*spec.Source.Lambda(), Cfg.Sim.SegMinWire*spec.Wire.Diameter)
+	// NEC2: dx > segMin*lambda, dx > SegRatio*wire
+	dx := max(Cfg.Sim.SegMinLambda*lambda, Cfg.Sim.SegMinWire*spec.Wire.Diameter)
 
 	// init model parameters
-	length := 2 * k * spec.Source.Lambda()
+	length := 2 * k * lambda
 	num = int(length / dx)
 	if num%2 == 0 {
 		num--
