@@ -22,8 +22,7 @@ package lib
 
 import (
 	"fmt"
-	"log"
-	"os"
+	"io"
 
 	necpp "github.com/ctdk/go-libnecpp"
 )
@@ -31,7 +30,8 @@ import (
 // Antenna geometry, parameter and performance
 type Antenna struct {
 	kind   string       // kind of antenna
-	segs   []Line       // antenna geometry (build from segments)
+	segs   []*Line      // antenna geometry
+	dia    float64      // constant wire diameter
 	excite int          // position of exitation segment
 	Lambda float64      // wavelength at operating frequency
 	Perf   *Performance // antenna performance
@@ -41,28 +41,42 @@ type Antenna struct {
 func NewAntenna(kind string) *Antenna {
 	return &Antenna{
 		kind: kind,
-		segs: make([]Line, 0),
+		segs: make([]*Line, 0),
+		Perf: new(Performance),
 	}
 }
 
 // BuildAntenna from given geometry
-func BuildAntenna(kind string, spec *Specification, nodes []Node) (ant *Antenna) {
+func BuildAntenna(kind string, spec *Specification, nodes []*Node) (ant *Antenna) {
 	ant = NewAntenna(kind)
 	ant.Lambda = spec.Source.Lambda()
-	d := nodes[0].Len()
+	ant.dia = spec.Wire.Diameter
+	d := spec.Feedpt.Gap
+	if IsNull(d) {
+		d = nodes[0].Length
+		spec.Feedpt.Gap = d
+	}
 	pos := NewVec3(d/2, 0, spec.Ground.Height)
-	dir := 0.
-	ant.Add(NewSegment(pos.MirrorX(), pos, spec.Wire.Diameter))
+	if ext := spec.Feedpt.Extension; ext > 0.001 {
+		posE := pos
+		posE[2] = -ext
+		ant.Add(NewLine(posE.MirrorX(), posE))
+		ant.Add(NewLine(posE, pos))
+		ant.Add(NewLine(posE.MirrorX(), pos.MirrorX()))
+	} else {
+		ant.Add(NewLine(pos.MirrorX(), pos))
+	}
+
 	ant.excite = 0
+	dir := 0.
 	for _, node := range nodes {
-		length, angle := node.Polar()
-		dir += angle
-		end := pos.Move2D(length, dir)
-		ant.Add(NewSegment(pos, end, spec.Wire.Diameter))
-		ant.Add(NewSegment(end.MirrorX(), pos.MirrorX(), spec.Wire.Diameter))
+		dir += node.Theta
+		end := pos.Move2D(node.Length, dir)
+		ant.Add(NewLine(pos, end))
+		ant.Add(NewLine(end.MirrorX(), pos.MirrorX()))
 		pos = end
 	}
-	ant.FixGeometry(2 * d)
+	ant.FixGeometry(2 * nodes[0].Length)
 	return
 }
 
@@ -77,7 +91,7 @@ func (a *Antenna) SetExcitation(pos int) {
 }
 
 // Add segment to antenna geometry
-func (a *Antenna) Add(s *Segment) {
+func (a *Antenna) Add(s *Line) {
 	a.segs = append(a.segs, s)
 }
 
@@ -95,9 +109,8 @@ func (a *Antenna) Eval(freq int64, wire Wire, ground Ground) (err error) {
 	dx := a.Lambda / 100
 	for i, seg := range a.segs {
 		k := max(1, min(100, int(seg.Length()/dx)))
-		s := seg.(*Segment)
 		start, end := seg.Start(), seg.End()
-		if err = ctx.Wire(i+1, k, start[0], start[1], start[2], end[0], end[1], end[2], s.dia/2, 1, 1); err != nil {
+		if err = ctx.Wire(i+1, k, start[0], start[1], start[2], end[0], end[1], end[2], a.dia/2, 1, 1); err != nil {
 			return
 		}
 	}
@@ -142,7 +155,6 @@ func (a *Antenna) Eval(freq int64, wire Wire, ground Ground) (err error) {
 	}
 
 	// get simulated preformance result
-	a.Perf = new(Performance)
 	a.Perf.Gain = new(Gain)
 	if a.Perf.Gain.Max, err = ctx.GainMax(0); err != nil {
 		return
@@ -193,7 +205,7 @@ func (a *Antenna) FixGeometry(minD float64) {
 		start, end := max(1, r[0]-Bulge), min(len(a.segs)-1, r[1]+Bulge)
 		step := minD / float64(max(r[0]-start, end-r[1]))
 		for i := start; i <= end; i++ {
-			n := a.segs[i].(*Segment)
+			n := a.segs[i]
 			if i < r[0] {
 				dz := minD - float64(r[0]-i)*step
 				n.start[2] += dz
@@ -210,26 +222,19 @@ func (a *Antenna) FixGeometry(minD float64) {
 	}
 }
 
-// DumpNEC writes an antenna simulation card deck to file.
-func (a *Antenna) DumpNEC(spec *Specification, comments []string, fName string) {
-	wrt, err := os.Create(fName)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer wrt.Close()
-
+// DumpNEC writes an antenna simulation card deck to writer.
+func (a *Antenna) DumpNEC(wrt io.Writer, spec *Specification, comments []string) {
 	for _, cmt := range comments {
 		fmt.Fprintf(wrt, "CM %s\n", cmt)
 	}
 	fmt.Fprintln(wrt, "CE Model output")
-	for i, seg := range a.segs {
-		s := seg.(*Segment)
+	for i, s := range a.segs {
 		l := s.end.Add(s.start.Neg()).Length()
 		n := int(min(100, max(1, l/0.01)))
 		fmt.Fprintf(wrt, "GW %d %d %e %e %e %e %e %e %e\n", i+1, n,
 			s.start[0], s.start[1], s.start[2],
 			s.end[0], s.end[1], s.end[2],
-			s.dia/2,
+			a.dia/2,
 		)
 	}
 	volt := 1. // math.Sqrt(spec.FeedP * real(spec.FeedZ))
@@ -241,7 +246,7 @@ func (a *Antenna) DumpNEC(spec *Specification, comments []string, fName string) 
 	if !IsNull(spec.Wire.Conductivity) {
 		fmt.Fprintf(wrt, "LD 5 0 0 0 %e\n", spec.Wire.Conductivity)
 	}
-	fmt.Fprintf(wrt, "EX 0 %d 1 0 %f\n", a.excite, volt)
+	fmt.Fprintf(wrt, "EX 0 %d 1 0 %f\n", a.excite+1, volt)
 	f := float64(spec.Source.Freq) / 1e6
 	if spec.Source.Span > 0 {
 		fh := float64(spec.Source.Span) / 1e6
@@ -251,63 +256,4 @@ func (a *Antenna) DumpNEC(spec *Specification, comments []string, fName string) 
 	}
 	fmt.Fprintln(wrt, "RP 0 37 73 1000 0 0 5 5 0 0")
 	fmt.Fprintln(wrt, "EN")
-}
-
-//----------------------------------------------------------------------
-
-// Segment in an antenna geometry (straight piece of wire)
-// Implements the Line interface.
-type Segment struct {
-	start Vec3    // start position
-	end   Vec3    // end position
-	dia   float64 // wire diameter
-}
-
-// NewSegment from given parameters
-func NewSegment(s, e Vec3, d float64) *Segment {
-	return &Segment{
-		start: s,
-		end:   e,
-		dia:   d,
-	}
-}
-
-// Start position of wire
-func (s *Segment) Start() Vec3 {
-	return s.start
-}
-
-// End position of wire
-func (s *Segment) End() Vec3 {
-	return s.end
-}
-
-// String returns a human-readable segment text
-func (s *Segment) String() string {
-	return fmt.Sprintf("{%s-%s, %f}", s.start, s.end, s.dia)
-}
-
-// Length of segment
-func (s *Segment) Length() float64 {
-	return s.Dir().Length()
-}
-
-// Dir of segment (absolute direction)
-func (s *Segment) Dir() Vec3 {
-	return s.end.Add(s.start.Neg())
-}
-
-// Distance between two segments
-func (s *Segment) Distance(sj Line) (d float64) {
-	li := NewLine3(s.start, s.end)
-	lj := NewLine3(sj.Start(), sj.End())
-	return li.Distance(lj)
-}
-
-// Intersect checks if two segments intersect and returns
-// the intersection point if they do.
-func (s *Segment) Intersect(sj Line) (p Vec3, cross bool) {
-	li := NewLine3(s.start, s.end)
-	lj := NewLine3(sj.Start(), sj.End())
-	return li.Intersect(lj)
 }

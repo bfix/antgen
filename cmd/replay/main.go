@@ -88,9 +88,9 @@ func main() {
 
 		// build initial geometry
 		num := track.Num
-		nodes := make([]lib.Node, num)
+		nodes := make([]*lib.Node, num)
 		for i := range nodes {
-			nodes[i] = lib.NewNode2D(track.SegL, 0)
+			nodes[i] = lib.NewNode(track.SegL, 0, 0)
 		}
 
 		go func() {
@@ -105,21 +105,21 @@ func main() {
 					init = false
 
 				case lib.TRK_SHORT:
-					// shorten wing
+					// shorten leg
 					num--
 					nodes = nodes[:num]
 					continue
 
 				case lib.TRK_LENGTH:
-					// lengthen wing
+					// lengthen leg
 					num++
-					nodes = append(nodes, lib.NewNode2D(track.SegL, 0))
+					nodes = append(nodes, lib.NewNode(track.SegL, 0, 0))
 					continue
 
 				default:
 					// apply change
-					n := nodes[chg.Pos].(*lib.Node2D)
-					n.AddAngle(chg.Angle)
+					n := nodes[chg.Pos]
+					n.AddAngles(chg.Theta, chg.Phi)
 				}
 
 				// visualize antenna
@@ -142,13 +142,7 @@ func main() {
 			case 'X':
 				// write current geometry file
 				geo := new(lib.Geometry)
-				geo.Num = track.Num
-				geo.SegL = track.SegL
-				geo.Bends = make([]float64, geo.Num)
-				for i, n := range nodes {
-					_, angle := n.Polar()
-					geo.Bends[i] = angle
-				}
+				geo.Nodes = nodes
 				data, err := json.MarshalIndent(geo, "", "    ")
 				if err != nil {
 					log.Fatal(err)
@@ -202,13 +196,7 @@ func main() {
 				spec.Wire = geo.Wire
 
 				// build initial geometry
-				num := geo.Num
-				nodes := make([]lib.Node, num)
-				for i := range nodes {
-					nodes[i] = lib.NewNode2D(geo.SegL, geo.Bends[i])
-				}
-
-				ant := lib.BuildAntenna("geo", spec, nodes)
+				ant := lib.BuildAntenna("geo", spec, geo.Nodes)
 				if eval {
 					if err = ant.Eval(spec.Source.Freq, spec.Wire, spec.Ground); err != nil {
 						log.Fatal(err)

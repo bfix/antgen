@@ -40,7 +40,7 @@ type Generator interface {
 	// Nodes returns the initial antenna geometry made from 'num' segments
 	// of equal length 'segL'. Volatile generators build varying geometries
 	// based on randomization.
-	Nodes(num int, segL float64, rnd *rand.Rand) []Node
+	Nodes(num int, segL float64, rnd *rand.Rand) []*Node
 
 	// Name of generator
 	Name() string
@@ -111,10 +111,10 @@ func (g *GenStraight) Init(params string, lambda float64) error {
 
 // Nodes returns the initial antenna geometry made from 'num' segments
 // of equal length 'segL'.
-func (g *GenStraight) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
-	nodes := make([]Node, num)
+func (g *GenStraight) Nodes(num int, segL float64, rnd *rand.Rand) []*Node {
+	nodes := make([]*Node, num)
 	for i := range num {
-		nodes[i] = NewNode2D(segL, 0)
+		nodes[i] = NewNode(segL, 0, 0)
 	}
 	return nodes
 }
@@ -136,12 +136,12 @@ func (g *GenStraight) Volatile() bool {
 
 //----------------------------------------------------------------------
 
-// GenV returns a V-shaped dipole with 120° (¾π) angle between wings.
+// GenV returns a V-shaped dipole with 120° (¾π) angle between legs.
 type GenV struct {
 	lambda float64 // wavelength
 	ang    float64 // opening angle
 	rad    float64 // bending radius
-	end    bool    // bend back at end of wing
+	end    bool    // bend back at end of leg
 	params string  // supplied parameters
 }
 
@@ -176,14 +176,14 @@ func (g *GenV) Init(params string, lambda float64) (err error) {
 
 // Nodes returns the initial antenna geometry made from 'num' segments
 // of equal length 'segL'.
-func (g *GenV) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
+func (g *GenV) Nodes(num int, segL float64, rnd *rand.Rand) []*Node {
 	rnum := 1
 	if !IsNull(g.rad) {
 		bendMax := g.rad * segL / g.lambda
 		rnum = int(math.Ceil(g.ang / bendMax))
 	}
 	dAng := g.ang / float64(rnum)
-	nodes := make([]Node, num)
+	nodes := make([]*Node, num)
 	for i := range num {
 		ang := 0.
 		if i < rnum {
@@ -191,7 +191,7 @@ func (g *GenV) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
 		} else if g.end && i >= num-rnum {
 			ang = -dAng
 		}
-		nodes[i] = NewNode2D(segL, ang)
+		nodes[i] = NewNode(segL, ang, 0)
 	}
 	return nodes
 }
@@ -216,7 +216,7 @@ func (g *GenV) Volatile() bool {
 
 //----------------------------------------------------------------------
 
-// GenWalk grows a line (dipole wing) by moving in one direction, so the
+// GenWalk grows a line (dipole leg) by moving in one direction, so the
 // maximum direction vector of a segment is ±½π.
 type GenWalk struct {
 	lambda float64
@@ -244,16 +244,16 @@ func (g *GenWalk) Init(params string, lambda float64) error {
 
 // Nodes returns the initial antenna geometry made from 'num' segments
 // of equal length 'segL'.
-func (g *GenWalk) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
+func (g *GenWalk) Nodes(num int, segL float64, rnd *rand.Rand) []*Node {
 	bendMax := BendMax(Cfg.Sim.MinRadius*g.lambda, segL)
-	nodes := make([]Node, num)
+	nodes := make([]*Node, num)
 	dir := 0.
 	for i := range num {
 		ang := 2 * (rnd.Float64() - 0.5) * bendMax
 		if math.Abs(dir+ang) > RectAng {
 			ang = -ang
 		}
-		nodes[i] = NewNode2D(segL, ang)
+		nodes[i] = NewNode(segL, ang, 0)
 		dir += ang
 	}
 	if g.rng > 0 {
@@ -282,7 +282,7 @@ func (g *GenWalk) Volatile() bool {
 
 //----------------------------------------------------------------------
 
-// GenStroll grows a line (dipole wing) by moving in any direction but
+// GenStroll grows a line (dipole leg) by moving in any direction but
 // bounded by to positive x-coordinates.
 type GenStroll struct {
 	lambda float64
@@ -310,9 +310,9 @@ func (g *GenStroll) Init(params string, lambda float64) error {
 
 // Nodes returns the initial antenna geometry made from 'num' segments
 // of equal length 'segL'.
-func (g *GenStroll) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
+func (g *GenStroll) Nodes(num int, segL float64, rnd *rand.Rand) []*Node {
 	bendMax := BendMax(Cfg.Sim.MinRadius*g.lambda, segL)
-	nodes := make([]Node, num)
+	nodes := make([]*Node, num)
 	dir := 0.
 	x := 0.
 	for i := range num {
@@ -326,7 +326,7 @@ func (g *GenStroll) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
 				ang = -ang
 			}
 		}
-		nodes[i] = NewNode2D(segL, ang)
+		nodes[i] = NewNode(segL, ang, 0)
 		x = xn
 		dir = math.Mod(CircAng+dir+ang, CircAng)
 	}
@@ -369,7 +369,7 @@ func (g *GenGeo) Init(params string, lambda float64) error {
 
 // Nodes returns the initial antenna geometry made from 'num' segments
 // of equal length 'segL'.
-func (g *GenGeo) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
+func (g *GenGeo) Nodes(num int, segL float64, rnd *rand.Rand) []*Node {
 
 	// read geometry file
 	body, err := os.ReadFile(g.fName)
@@ -381,11 +381,7 @@ func (g *GenGeo) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
 		log.Fatal(err)
 	}
 
-	nodes := make([]Node, geo.Num)
-	for i, bend := range geo.Bends {
-		nodes[i] = NewNode2D(geo.SegL, bend)
-	}
-	return nodes
+	return geo.Nodes
 }
 
 // Info about generator
@@ -405,7 +401,7 @@ func (g *GenGeo) Volatile() bool {
 
 //----------------------------------------------------------------------
 
-// GenTrespass grows a line (dipole wing) by moving in any direction
+// GenTrespass grows a line (dipole leg) by moving in any direction
 // and widthout bounds.
 type GenTrespass struct {
 	lambda float64
@@ -433,13 +429,13 @@ func (g *GenTrespass) Init(params string, lambda float64) error {
 
 // Nodes returns the initial antenna geometry made from 'num' segments
 // of equal length 'segL'.
-func (g *GenTrespass) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
+func (g *GenTrespass) Nodes(num int, segL float64, rnd *rand.Rand) []*Node {
 	bendMax := BendMax(Cfg.Sim.MinRadius*g.lambda, segL)
-	nodes := make([]Node, num)
+	nodes := make([]*Node, num)
 	dir := 0.
 	for i := range num {
 		ang := 2 * (rnd.Float64() - 0.5) * bendMax
-		nodes[i] = NewNode2D(segL, ang)
+		nodes[i] = NewNode(segL, ang, 0)
 		dir += ang
 	}
 	return nodes

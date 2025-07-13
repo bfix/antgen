@@ -84,12 +84,11 @@ func (c *SVGCanvas) Show(ant *Antenna, _ int, msg string) {
 		c.Text(0, y, c.txtSize, msg, ClrBlack)
 	}
 	for idx, seg := range ant.segs {
-		s := seg.(*Segment)
 		clr := ClrBlue
 		if idx == ant.excite {
 			clr = ClrRed
 		}
-		c.Line(s.start[0], s.start[1], s.end[0], s.end[1], s.dia, clr)
+		c.Line(seg.start[0], seg.start[1], seg.end[0], seg.end[1], ant.dia, clr)
 	}
 	y += c.txtSize
 	c.Text(0, y, c.txtSize/2, ant.Perf.String(), ClrRed)

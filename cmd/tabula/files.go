@@ -50,18 +50,20 @@ func importFromDirectory(db *lib.Database, in string, args []string) {
 			log.Printf(">>> %s", path)
 
 			// extract information from model file
-			p, ok, err := lib.ParseMdlParams(path, in)
+			p, ok, err := lib.ParseMdlParamsFromNEC(path, in)
 			if err != nil {
 				log.Printf("ERROR: %s", err.Error())
 				return nil
 			}
-			if ok {
-				if err = db.Insert(p); err != nil {
-					log.Printf("ERROR: %s", err.Error())
-					return nil
-				}
-				num++
+			if !ok {
+				log.Printf("FAILED parsing %s", path)
+				return nil
 			}
+			if err = db.Insert(p); err != nil {
+				log.Printf("ERROR: %s", err.Error())
+				return nil
+			}
+			num++
 		}
 		return nil
 	}); err != nil {

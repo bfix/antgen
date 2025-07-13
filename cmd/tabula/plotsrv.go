@@ -51,7 +51,7 @@ var (
 )
 
 // application entry point
-func plotsrv(db *lib.Database, in string, args []string) {
+func plotsrv(db *lib.Database, _ string, args []string) {
 	// handle command-line arguments
 	var (
 		listen string // HTTP server listen

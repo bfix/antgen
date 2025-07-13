@@ -21,6 +21,7 @@
 package lib
 
 import (
+	"bytes"
 	"testing"
 )
 
@@ -42,11 +43,19 @@ func TestAntenna(t *testing.T) {
 			Freq:  435000000,
 			Span:  5000000,
 		},
+		Feedpt: Feedpt{
+			Gap:       0.01,
+			Extension: 0.05,
+		},
 	}
-	nodes := make([]Node, 2)
-	nodes[0] = NewNode2D(0.01, 0)
-	nodes[1] = NewNode2D(0.25*spec.Source.Lambda(), 0)
+	nodes := make([]*Node, 2)
+	nodes[0] = NewNode(0.01, 0, 0)
+	nodes[1] = NewNode(0.25*spec.Source.Lambda()-0.01, 0, 0)
 	ant := BuildAntenna("test", spec, nodes)
+
+	buf := new(bytes.Buffer)
+	ant.DumpNEC(buf, spec, nil)
+	t.Log(buf.String())
 
 	// simulate antenna
 	if err := ant.Eval(spec.Source.Freq, spec.Wire, spec.Ground); err != nil {

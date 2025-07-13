@@ -25,14 +25,6 @@ import (
 	"os"
 )
 
-// Default values (command-line options)
-type Default struct {
-	K      float64 `json:"k"`      // default 'k'(wing in wavelength)
-	Wire   Wire    `json:"wire"`   // default wire parameters
-	Ground Ground  `json:"ground"` // ground parameters
-	Source Source  `json:"source"` // source parameters
-}
-
 // Simulation parameters
 type Simulation struct {
 	// optimization parameters (termination conditions)
@@ -70,7 +62,7 @@ type RenderConfig struct {
 
 // Config for AntGen
 type Config struct {
-	Def     *Default             `json:"default"`
+	Def     *Specification       `json:"default"`
 	Sim     *Simulation          `json:"simulation"`
 	Mat     map[string]*Material `json:"material"`
 	Render  *RenderConfig        `json:"render"`
@@ -80,13 +72,13 @@ type Config struct {
 // Cfg is the globally-accessible configuration (pre-set)
 var Cfg = &Config{
 	// default values (command-line options)
-	Def: &Default{
+	Def: &Specification{
 		K: 0.25,
 		Wire: Wire{
 			Diameter:     0.002,
-			Material:     "CuL",
-			Conductivity: 5.96e7,
-			Inductance:   1.54e-7,
+			Material:     "",
+			Conductivity: 0,
+			Inductance:   0,
 		},
 		Ground: Ground{
 			Height: 0,
@@ -101,6 +93,10 @@ var Cfg = &Config{
 			Power: 1,
 			Freq:  435000000,
 			Span:  5000000,
+		},
+		Feedpt: Feedpt{
+			Gap:       0,
+			Extension: 0,
 		},
 	},
 	// Simulation parameters
@@ -133,16 +129,16 @@ var Cfg = &Config{
 	// wire materials
 	Mat: map[string]*Material{
 		"Cu": { // cupper wire
-			5.96e7,      // conductivity (S/m)
-			1.320172e-6, // inductance (H/m)
-		},
-		"CuL": { // emailled copper wire
 			5.96e7,  // conductivity (S/m)
-			1.54e-7, // inductance (H/m)
+			1.32e-6, // inductance (H/m)
+		},
+		"CuL": { // enamel copper wire
+			5.96e7, // conductivity (S/m)
+			1.1e-7, // inductance (H/m)
 		},
 		"Al": { // Aluminium
-			3.5e7,      // conductivity (S/m)
-			1.32021e-6, // inductance (H/m)
+			3.5e7,  // conductivity (S/m)
+			2.5e-8, // inductance (H/m)
 		},
 	},
 	// no pre-defined plugins

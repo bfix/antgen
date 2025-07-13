@@ -28,7 +28,7 @@ import (
 
 func TestNumbers(t *testing.T) {
 	EPS := 1e-5
-	for i := 0; i < 100; i++ {
+	for range 100 {
 		v := math.Round((rand.Float64() * 100000))
 		e := rand.Intn(19) - 9
 		k := math.Pow10(e)

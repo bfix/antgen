@@ -176,19 +176,20 @@ func (r *Row) Value(name string) float64 {
 
 // Record in the database
 type Record struct {
-	Freq  int64       // operating frequency
-	Wire  Wire        // wire spec
-	Gnd   Ground      // ground spec
-	K     float64     // k (dipole wing length)
-	Param float64     // free parameter (generator)
-	Perf  Performance // final performance
-	Mdl   string      // antenna model
-	Gen   string      // antenna generator (initial geometry)
-	Opt   string      // optimizer
-	Seed  int64       // random seed
-	Stats Stats       // optimization stats
-	Path  string      // relative path
-	Tag   string      // model tag
+	Freq   int64       // operating frequency
+	Wire   Wire        // wire spec
+	Gnd    Ground      // ground spec
+	Feedpt Feedpt      // feedpoint spec
+	K      float64     // k (dipole leg length)
+	Param  float64     // free parameter (generator)
+	Perf   Performance // final performance
+	Mdl    string      // antenna model
+	Gen    string      // antenna generator (initial geometry)
+	Opt    string      // optimizer
+	Seed   int64       // random seed
+	Stats  Stats       // optimization stats
+	Path   string      // relative path
+	Tag    string      // model tag
 }
 
 //----------------------------------------------------------------------
@@ -304,7 +305,7 @@ create table performance (
 	height  float not null,         -- antenna height
 	ground  integer not null,       -- ground type
 	gType   integer not null,       -- ground mode
-    k       float not null,         -- wing span in lambda
+    k       float not null,         -- leg length in lambda
     param   float default null,     -- free parameter
     Gmax    float not null,         -- maximum gain
     Gmean   float not null,         -- mean gain

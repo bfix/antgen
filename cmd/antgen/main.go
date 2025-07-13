@@ -26,6 +26,8 @@ import (
 	"fmt"
 	"log"
 	"math"
+	"os"
+	"strings"
 
 	"github.com/bfix/antgen/lib"
 )
@@ -71,11 +73,11 @@ func main() {
 		spec   = new(lib.Specification) // Antenna specifications
 		config string                   // configuration file
 
-		freqS   string  // 'freq' option: either single freq or freq range
-		wireS   string  // wire specification
-		groundS string  // ground specification
-		sourceS string  // source parameters (without frequency)
-		k       float64 // fraction of wavelength for dipole half
+		freqS   string // 'freq' option: either single freq or freq range
+		wireS   string // wire specification
+		groundS string // ground specification
+		sourceS string // source parameters (without frequency)
+		feedptS string // feedpoint parameters
 
 		param float64 // free parameter
 		seed  int64   // seed for deterministic randomization
@@ -98,10 +100,11 @@ func main() {
 	)
 	flag.StringVar(&config, "config", "", "configuration file")
 	flag.StringVar(&freqS, "freq", "", "Frequency (default: 430M-440M)")
-	flag.Float64Var(&k, "k", lib.Cfg.Def.K, "side extend kλ (default: 0.25λ)")
+	flag.Float64Var(&spec.K, "k", lib.Cfg.Def.K, "side extend kλ (default: 0.25λ)")
 	flag.StringVar(&wireS, "wire", "", "wire parameter")
 	flag.StringVar(&groundS, "ground", "", "antenna height")
 	flag.StringVar(&sourceS, "source", "", "feed parameters")
+	flag.StringVar(&feedptS, "feedpt", "", "feed point")
 
 	flag.StringVar(&gen, "gen", "stroll", "generator for initial geometry")
 
@@ -115,6 +118,7 @@ func main() {
 	flag.StringVar(&tag, "tag", "", "output name tag")
 	flag.StringVar(&outDir, "out", "./out", "output directory")
 	flag.StringVar(&outPrf, "prefix", "", "output prefix")
+
 	flag.IntVar(&verbose, "verbose", 1, "verbosity")
 	flag.BoolVar(&vis, "vis", false, "visualize iterations")
 	flag.BoolVar(&logr, "log", false, "log iterations")
@@ -127,6 +131,7 @@ func main() {
 			log.Fatal(err)
 		}
 	}
+
 	// handle wire parameters
 	if spec.Wire, err = lib.ParseWire(wireS, warn); err != nil {
 		log.Fatal(err)
@@ -136,6 +141,12 @@ func main() {
 	if spec.Source, err = lib.ParseSource(sourceS, warn); err != nil {
 		log.Fatal(err)
 	}
+
+	// handle feed point parameters
+	if spec.Feedpt, err = lib.ParseFeedpt(feedptS, warn); err != nil {
+		log.Fatal(err)
+	}
+
 	// change specified source frequency (range)
 	if len(freqS) > 0 {
 		if spec.Source.Freq, spec.Source.Span, err = lib.GetFrequencyRange(freqS); err != nil {
@@ -155,7 +166,7 @@ func main() {
 	}
 
 	// get optimization model
-	mdl, side, err := GetModel(model, spec, k, g, verbose)
+	mdl, side, err := GetModel(model, spec, g, verbose)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -240,5 +251,36 @@ func main() {
 	if !logr {
 		steps = nil
 	}
-	OutputModel(k, param, spec, ant, g, iniPerf, mdl, target, seed, total, steps, tag, outDir, outPrf)
+
+	// intro and assemble comments
+	var cmts []string
+	cmts = append(cmts, fmt.Sprintf("AntGen %s (%s) - Copyright 2024-present Bernd Fix   >Y<", Version, Date))
+	cmts = append(cmts, lib.GenMdlParams(param, spec, iniPerf, ant.Perf, model, g.Info(), target, seed, tag, total)...)
+
+	// handle output prefix
+	if len(outPrf) > 0 && !strings.HasSuffix(outPrf, "_") {
+		outPrf += "_"
+	}
+	// write model to file
+	fName := fmt.Sprintf("%s/%smodel-%s.nec", outDir, outPrf, tag)
+	wrt, err := os.Create(fName)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer wrt.Close()
+	ant.DumpNEC(wrt, spec, cmts)
+	mdl.Finalize(tag, outDir, outPrf, cmts)
+
+	// handle logging
+	if len(steps) > 0 {
+		fName := fmt.Sprintf("%s/%ssteps-%s.log", outDir, outPrf, tag)
+		logF, err := os.Create(fName)
+		if err != nil {
+			log.Fatal(err)
+		}
+		for _, line := range steps {
+			fmt.Fprintln(logF, line)
+		}
+		logF.Close()
+	}
 }

@@ -134,6 +134,7 @@ func showBest(db *lib.Database, in string, args []string) {
 	}
 	// assemble model/geometry list from database
 	var geos []string
+	var perf []*lib.Performance
 	rows, err := db.GetRows(zClause, order)
 	if err != nil {
 		log.Fatal(err)
@@ -143,6 +144,14 @@ func showBest(db *lib.Database, in string, args []string) {
 		if strings.HasPrefix(dir, band) {
 			f := in + "/" + dir + "/geometry-" + tag + ".json"
 			geos = append(geos, f)
+
+			p := new(lib.Performance)
+			p.Gain = new(lib.Gain)
+			p.Gain.Max = r.Value("Gmax")
+			p.Gain.Mean = r.Value("Gmean")
+			p.Gain.SD = r.Value("SD")
+			p.Z = complex(r.Value("Zr"), r.Value("Zi"))
+			perf = append(perf, p)
 		}
 	}
 
@@ -172,18 +181,14 @@ func showBest(db *lib.Database, in string, args []string) {
 				log.Fatal(err)
 			}
 			spec.Wire = geo.Wire
+			spec.Feedpt = geo.Feedpt
+			if lib.IsNull(spec.Feedpt.Gap) {
+				spec.Feedpt.Gap = geo.Nodes[0].Length
+			}
 
 			// build initial geometry
-			num := geo.Num
-			nodes := make([]lib.Node, num)
-			for i := range nodes {
-				nodes[i] = lib.NewNode2D(geo.SegL, geo.Bends[i])
-			}
-
-			ant := lib.BuildAntenna("geo", spec, nodes)
-			if err = ant.Eval(spec.Source.Freq, spec.Wire, spec.Ground); err != nil {
-				log.Fatal(err)
-			}
+			ant := lib.BuildAntenna("geo", spec, geo.Nodes)
+			ant.Perf = perf[pos]
 			name := strings.TrimPrefix(path, in)
 			render.Show(ant, -1, name)
 			if rc := <-cont; rc < 0 {

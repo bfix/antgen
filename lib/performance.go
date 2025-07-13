@@ -221,13 +221,6 @@ func (cmp *Comparator) value(p *Performance, args string, feedZ complex128) (val
 // Compare antenna results based on the optimization target.
 // Returns 0 if same, -1 if worse, 1 if better
 func (cmp *Comparator) Compare(curr, old *Performance) (sign int, val float64) {
-	// handle incomplete/invalid performances
-	if old.Gain == nil {
-		if curr.Gain != nil {
-			return 1, 0
-		}
-		return 0, 0
-	}
 	// execute comparator
 	eps := 1e-9
 	val = cmp.Value(curr)

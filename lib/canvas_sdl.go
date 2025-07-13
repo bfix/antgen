@@ -183,12 +183,11 @@ func (c *SDLCanvas) Run(cb Action) {
 			c.Text(0, y, c.txtSize, fmt.Sprintf("Step #%d", c.count), ClrBlack)
 		}
 		for idx, seg := range c.curr.Ant.segs {
-			s := seg.(*Segment)
 			clr := ClrBlue
 			if idx == c.curr.Ant.excite {
 				clr = ClrRed
 			}
-			c.Line(s.start[0], s.start[1], s.end[0], s.end[1], s.dia, clr)
+			c.Line(seg.start[0], seg.start[1], seg.end[0], seg.end[1], c.curr.Ant.dia, clr)
 		}
 		if c.curr.Pos >= 0 {
 			p := c.curr.Ant.segs[2*c.curr.Pos+1].Start()

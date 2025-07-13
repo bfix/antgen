@@ -154,7 +154,9 @@ func Plotter(db *Database, sel *Selection, format string) (out map[string]string
 		if ps != nil {
 			num++
 			idx = i
-			heatmap = (num == 1 && len(ps.Klist) > 1 && len(ps.Plist) > 1)
+			heatmap = (num == 1 &&
+				len(ps.Klist) > 1 && len(ps.Plist) > 1 &&
+				ps.Kidx == -1 && ps.Pidx == -1)
 		}
 	}
 	if heatmap && !slices.Contains(PlotValues, sel.Target) {
@@ -306,12 +308,20 @@ func plotXY(db *Database, sel *Selection) (p *plot.Plot, err error) {
 				Y: val,
 			})
 		}
-		if graph, err = plotter.NewLine(data); err != nil {
-			return
+		if len(data) == 1 {
+			var pnt *plotter.Scatter
+			if pnt, err = plotter.NewScatter(data); err != nil {
+				return
+			}
+			p.Add(pnt)
+		} else {
+			if graph, err = plotter.NewLine(data); err != nil {
+				return
+			}
+			_, graph.LineStyle = PlotStyle(tbl.Refs[col])
+			p.Add(graph)
+			p.Legend.Add(tbl.Dims[col], graph)
 		}
-		_, graph.LineStyle = PlotStyle(tbl.Refs[col])
-		p.Add(graph)
-		p.Legend.Add(tbl.Dims[col], graph)
 	}
 
 	// handle optional value ticks/lines

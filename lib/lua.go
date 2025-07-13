@@ -37,7 +37,7 @@ type LuaGenerator struct {
 	params map[string]string // map of parameters
 	lambda float64           // wavelength
 	state  *lua.State        // state of LUA VM
-	angles []float64         // local angles
+	nodes  []*Node           // geometry nodes
 }
 
 // Init generator with given parameters
@@ -64,8 +64,8 @@ func (g *LuaGenerator) Init(param string, lambda float64) error {
 // Nodes returns the initial antenna geometry made from 'num' segments
 // of equal length 'segL'. Volatile generators build varying geometries
 // based on randomization.
-func (g *LuaGenerator) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
-	g.angles = make([]float64, num)
+func (g *LuaGenerator) Nodes(num int, segL float64, rnd *rand.Rand) []*Node {
+	g.nodes = make([]*Node, num)
 
 	g.state.PushInteger(num)
 	g.state.SetGlobal("num")
@@ -75,10 +75,15 @@ func (g *LuaGenerator) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
 		state.PushNumber(rnd.Float64())
 		return 1
 	})
-	g.state.Register("setAngle", func(state *lua.State) int {
+	g.state.Register("setAngles", func(state *lua.State) int {
 		i, _ := state.ToInteger(1)
-		ang, _ := state.ToNumber(2)
-		g.angles[i] = ang
+		n := g.nodes[i]
+		if n == nil {
+			n = NewNode(segL, 0, 0)
+			g.nodes[i] = n
+		}
+		g.nodes[i].Theta, _ = state.ToNumber(2)
+		g.nodes[i].Phi, _ = state.ToNumber(3)
 		return 0
 	})
 	for k, v := range g.params {
@@ -101,11 +106,7 @@ func (g *LuaGenerator) Nodes(num int, segL float64, rnd *rand.Rand) []Node {
 	if err := lua.DoFile(g.state, g.script); err != nil {
 		panic(err)
 	}
-	nodes := make([]Node, num)
-	for i, ang := range g.angles {
-		nodes[i] = NewNode2D(segL, ang)
-	}
-	return nodes
+	return g.nodes
 }
 
 // Name of generator

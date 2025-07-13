@@ -63,20 +63,19 @@ conditions and the resolution of the radiation pattern.
 
 Pre-defined wire material parameters:
 
-        // wire materials
-        Mat: map[string]*Material{
-            "Cu": { // cupper wire
-                5.96e7,      // conductivity (S/m)
-                1.320172e-6, // inductance (H/m)
+        "material": {
+            "Cu": {
+                "conductivity": 5.96e7,
+                "inductance": 1.32e-6
             },
-            "CuL": { // emailled copper wire
-                5.96e7,  // conductivity (S/m)
-                1.54e-7, // inductance (H/m)
+            "CuL": {
+                "conductivity": 5.96e7,
+                "inductance": 1.1e-7
             },
-            "Al": { // Aluminium
-                3.5e7,      // conductivity (S/m)
-                1.32021e-6, // inductance (H/m)
-            },
+            "Al": {
+                "conductivity": 3.5e7,
+                "inductance": 2.5e-8
+            }
         },
 
 ## "plugins"

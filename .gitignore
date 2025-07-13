@@ -5,5 +5,6 @@
 /cmd/antgen/_date
 /cmd/antgen/_version
 /out/
+/work/
 /.vscode/
 /.markdownlint.json

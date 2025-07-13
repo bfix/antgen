@@ -22,43 +22,24 @@ package lib
 
 import "testing"
 
-func TestLuaEvaluator(t *testing.T) {
-
-	// construct antenna
-	spec := &Specification{
-		Wire: GetWire("CuL", 0.002),
-		Ground: Ground{
-			Height: 0,
-			Mode:   0,
-			Type:   -1,
-			NRadl:  0,
-			Epse:   0,
-			Sig:    0,
-		},
-		Source: Source{
-			Z:     Impedance{50, 0},
-			Power: 1,
-			Freq:  435000000,
-			Span:  5000000,
-		},
+func TestParse(t *testing.T) {
+	lines := []string{
+		"Source: 435000000:50.000000:0.000000",
+		"Wire: 0.002:CuL:5.960e+07:1.100e-07",
+		"Feedpoint: 0.005:0.000",
+		"Ground: 0.000:0:-1:0:0.000000:0.000000",
+		"Param: 0.100000::100",
+		"Mode: bend2d:straight:1000:none",
+		"Init: 2.290155:-2.211046:41.871386:7.280286:-449.239881",
+		"Result: 2.290155:-2.211046:41.871386:7.280286:-449.239881",
+		"Stats: 0:0:0:0",
 	}
-
-	ev, err := NewLuaEvaluator("./evaluator_test.lua")
+	p, ok, err := ParseMdlParams(lines)
 	if err != nil {
 		t.Fatal(err)
 	}
-	for i := range 5 {
-		nodes := make([]*Node, 2)
-		nodes[0] = NewNode(0.01, 0, 0)
-		nodes[1] = NewNode((0.25+float64(i)/20)*spec.Source.Lambda(), 0, 0)
-		ant := BuildAntenna("test", spec, nodes)
-
-		// simulate antenna
-		if err := ant.Eval(spec.Source.Freq, spec.Wire, spec.Ground); err != nil {
-			t.Fatal(err)
-		}
-
-		res := ev.Evaluate(ant.Perf, "matched", spec.Source.Impedance())
-		t.Log(res)
+	if !ok {
+		t.Fatal("!OK")
 	}
+	t.Logf("%v", p)
 }

@@ -24,12 +24,12 @@
 # Handle command-line options/arguments:
 #   $1: band                        [2m]/70cm/35cm
 #   $2: wire diameter               [0.002]
-#   $3: wire material               [CuL]/Cu/Al
+#   $3: wire material               [CuL]/Cu/Al or "default"
 #   $4: seed                        [1000]
 #-----------------------------------------------------------------------
 
 BAND=${1:-2m}
-MAT=${3:-CuL}
+MAT=${3:-"default"}
 SEED=${4:-1000}
 
 case ${BAND} in
@@ -50,13 +50,19 @@ case ${BAND} in
         exit 1
         ;;
 esac
+MDL=${WIRE}_${MAT}
+WDEF="${WIRE}:&${MAT}"
+if [ "${MAT}" = "default" ]; then
+    MDL=${MAT}
+    WDEF=${WIRE}
+fi
 
 #-----------------------------------------------------------------------
 # set common file pathes (application, output)
 #-----------------------------------------------------------------------
 
 BIN=${ANTGEN_BIN:-$(pwd)}
-OUT=${ANTGEN_OUT:-${BIN}/out}/${BAND}/${WIRE}_${MAT}
+OUT=${ANTGEN_OUT:-${BIN}/out}/${BAND}/${MDL}
 
 #-----------------------------------------------------------------------
 # generator functions
@@ -67,7 +73,7 @@ OUT=${ANTGEN_OUT:-${BIN}/out}/${BAND}/${WIRE}_${MAT}
 function gen() {
     [ -e ${OUT}/$5/model-$3.nec ] && return
     mkdir -p ${OUT}/$5
-    ${BIN}/antgen -freq ${FREQ} -wire "${WIRE}:&${MAT}" -model bend2d -opt $1 -gen $2 -log -k 0.$3 -tag $3 -seed $4 -out ${OUT}/$5
+    ${BIN}/antgen -freq ${FREQ} -wire "${WDEF}" -model bend2d -opt $1 -gen $2 -log -k 0.$3 -tag $3 -seed $4 -out ${OUT}/$5
     if [ $? -ne 0 ]; then
         echo "FAILED" > ${OUT}/$5/model-$3.nec
     fi
@@ -78,7 +84,7 @@ function gen() {
 function genP() {
     [ -e ${OUT}/$6/model-$3-$4.nec ] && return
     mkdir -p ${OUT}/$6
-    ${BIN}/antgen -freq ${FREQ} -wire "${WIRE}:&${MAT}" -model bend2d -opt $1 -gen $2 -log -param $3 -k 0.$4 -tag $3-$4 -seed $5 -out ${OUT}/$6
+    ${BIN}/antgen -freq ${FREQ} -wire "${WDEF}" -model bend2d -opt $1 -gen $2 -log -param $3 -k 0.$4 -tag $3-$4 -seed $5 -out ${OUT}/$6
     if [ $? -ne 0 ]; then
         echo "FAILED" > ${OUT}/$6/model-$3-$4.nec
     fi
@@ -144,12 +150,13 @@ function stroll() {
 # unmodified dipole
 straight none base 1 2 3
 
+straight Gmax Gmax 1
+exit
+
 #-----------------------------------------------------------------------
 
 # optimize for impedance match (50 Ohms)
 straight Z Z 1 2 3
-stroll Z stroll/Z 200 240 5
-stroll Z stroll/Z 670 740 5
 
 #-----------------------------------------------------------------------
 
@@ -158,8 +165,6 @@ straight Gmax Gmax 1 2 3
 straight Gmax=unmatched Gmax_u 1 2 3
 straight Gmax=matched Gmax_m 1 2 3
 straight Gmax=resonant Gmax_r 1 2 3
-stroll Gmax stroll/Gmax 650 800 5
-stroll Gmax=unmatched stroll/Gmax_u 650 800 5
 
 #-----------------------------------------------------------------------
 
@@ -168,12 +173,10 @@ straight Gmin Gmin 1 2 3
 straight Gmin=unmatched Gmin_u 1 2 3
 straight Gmin=matched Gmin_m 1 2 3
 straight Gmin=resonant Gmin_r 1 2 3
-stroll Gmin stroll/Gmin 250 350 5
 
 straight Gmean Gmean 1 2 3
 straight Gmean=unmatched Gmean_u 1 2 3
 straight Gmean=matched Gmean_m 1 2 3
-stroll Gmean=matched stroll/Gmean_m 700 800 5
 
 straight isotrope iso 1 2 3
 straight isotrope=unmatched iso_u 1 2 3
@@ -182,8 +185,18 @@ straight isotrope=matched iso_m 1 2 3
 straight SD SD 1 2 3
 
 #=======================================================================
-# Evaluate first pass results
+# Evaluate first pass results and set appropriate ranges for
+# optimizing random geometries.
 #=======================================================================
 
+#stroll Z stroll/Z 200 240 5
+#stroll Z stroll/Z 670 740 5
+
+#stroll Gmax stroll/Gmax 650 800 5
+#stroll Gmax=unmatched stroll/Gmax_u 650 800 5
+
+#stroll Gmin stroll/Gmin 250 350 5
+
+#stroll Gmean=matched stroll/Gmean_m 700 800 5
 
 exit 0

@@ -28,28 +28,26 @@ import (
 
 // Geometry of 2D-bended antenna
 type Geometry struct {
-	Cmts   []string  `json:"comments"` // optimization info/comments
-	SegL   float64   `json:"segL"`     // segment length in wings
-	Num    int       `json:"num"`      // number of segments
-	Wire   Wire      `json:"wire"`     // wire parameters
-	Height float64   `json:"height"`   // height of antenna
-	Bends  []float64 `json:"bends"`    // list of 2D bends
+	Cmts   []string `json:"comments"` // optimization info/comments
+	Wire   Wire     `json:"wire"`     // wire parameters
+	Feedpt Feedpt   `json:"feedpt"`   // feed point parameters
+	Height float64  `json:"height"`   // height of antenna
+	Nodes  []*Node  `json:"nodes"`    // node list
 }
 
 //----------------------------------------------------------------------
 
-func Smooth2D(nodes []Node, rng int) (out []Node) {
+func Smooth2D(nodes []*Node, rng int) (out []*Node) {
 	if rng < 1 {
 		return nodes
 	}
 	num := len(nodes)
-	out = make([]Node, num)
+	out = make([]*Node, num)
 	for i := range out {
-		l, _ := nodes[i].Polar()
-		out[i] = NewNode2D(l, 0)
+		out[i] = NewNode(nodes[i].Length, 0, 0)
 	}
 	for i, n := range nodes {
-		_, ang := n.Polar()
+		ang := n.Theta
 		s, e := -rng, rng
 		if i+s < 0 {
 			s = -i
@@ -63,8 +61,8 @@ func Smooth2D(nodes []Node, rng int) (out []Node) {
 		}
 		ang /= f
 		for j := s; j <= e; j++ {
-			nj := out[i+j].(*Node2D)
-			nj.angle += ang / math.Exp2(math.Abs(float64(j)))
+			nj := out[i+j]
+			nj.Theta += ang / math.Exp2(math.Abs(float64(j)))
 		}
 	}
 	return
@@ -101,64 +99,46 @@ func (b *BoundingBox) Include(v Vec3) {
 
 //----------------------------------------------------------------------
 
-// Node interface for 3D line/segments
-type Node interface {
-
-	// Dir returns the direction of the node as vector
-	Dir() Vec3
-
-	// Len returns the length of the segment
-	Len() float64
-
-	// Polar coordinates (2D) of the node
-	Polar() (r float64, ang float64)
+// Node in a 3D geometry (relative vector)
+type Node struct {
+	Length float64 `json:"length"`    // length of segment
+	Theta  float64 `json:"azimuth"`   // azimuth (angle in XY plane)
+	Phi    float64 `json:"elevation"` // elevation (towards Z axis)
 }
 
-// Node2D impements a 2D node
-type Node2D struct {
-	length float64 // length of segment
-	angle  float64 // angle in XY plane
-}
-
-// NewNode2D creates a new 2D node
-func NewNode2D(l, a float64) (n *Node2D) {
-	return &Node2D{
-		length: l,
-		angle:  a,
+// NewNode creates a new 3D node
+func NewNode(len, theta, phi float64) (n *Node) {
+	return &Node{
+		Length: len,
+		Theta:  theta,
+		Phi:    phi,
 	}
 }
 
-// Len returns the length of the segment
-func (n *Node2D) Len() float64 {
-	return n.length
-}
-
 // Dir returns the direction of the node as vector
-func (n *Node2D) Dir() (v Vec3) {
-	v[0] = math.Cos(n.angle)
-	v[1] = math.Sin(n.angle)
-	v[2] = 0
+func (n *Node) Dir() (v Vec3) {
+	v[2] = math.Sin(n.Phi)
+	r := math.Cos(n.Phi)
+	v[0] = r * math.Cos(n.Theta)
+	v[1] = r * math.Sin(n.Theta)
 	return
 }
 
-// Polar coordinates (2D) of the node
-func (n *Node2D) Polar() (float64, float64) {
-	return n.length, n.angle
+// Next returns the position of the next node
+func (n *Node) Next() (v Vec3) {
+	v = n.Dir().Mult(n.Length)
+	return
 }
 
-// SetAngle of a node
-func (n *Node2D) SetAngle(a float64) {
-	n.angle = a
+// SetAngles of a node
+func (n *Node) SetAngles(theta, phi float64) {
+	n.Theta, n.Phi = theta, phi
 }
 
-// AddAngle to the current direction of a node
-func (n *Node2D) AddAngle(da float64) {
-	n.angle += da
-}
-
-// GetAngle returns the current node angle
-func (n *Node2D) GetAngle() float64 {
-	return n.angle
+// AddAngles to the current direction of a node
+func (n *Node) AddAngles(dTheta, dPhi float64) {
+	n.Theta += dTheta
+	n.Phi += dPhi
 }
 
 //----------------------------------------------------------------------
@@ -257,67 +237,42 @@ func (v Vec3) MirrorX() (w Vec3) {
 
 //----------------------------------------------------------------------
 
-// Line interface
-type Line interface {
-	// Start point of line (3D)
-	Start() Vec3
-
-	// End point of line (3D)
-	End() Vec3
-
-	// Length of line
-	Length() float64
-
-	// Dir is the direction of the line in 3D
-	Dir() Vec3
-
-	// Distance between two lines
-	Distance(Line) float64
-
-	// Intersect returns true (and the intersection point)
-	// if two lines intersect
-	Intersect(Line) (Vec3, bool)
-
-	// String returns the human-readable line
-	String() string
-}
-
-// Line3 is a 3D implementation of the Line interface
-type Line3 struct {
+// Line in 3D space
+type Line struct {
 	start Vec3
 	end   Vec3
 }
 
-// NewLine3 creates a new 3D line
-func NewLine3(s, e Vec3) *Line3 {
-	return &Line3{
+// NewLine creates a new 3D line
+func NewLine(s, e Vec3) *Line {
+	return &Line{
 		start: s,
 		end:   e,
 	}
 }
 
 // Start point of line (3D)
-func (l *Line3) Start() Vec3 {
+func (l *Line) Start() Vec3 {
 	return l.start
 }
 
 // End point of line (3D)
-func (l *Line3) End() Vec3 {
+func (l *Line) End() Vec3 {
 	return l.end
 }
 
 // Length of line
-func (l *Line3) Length() float64 {
+func (l *Line) Length() float64 {
 	return l.Dir().Length()
 }
 
 // Dir is the direction of the line in 3D
-func (l *Line3) Dir() Vec3 {
+func (l *Line) Dir() Vec3 {
 	return l.end.Sub(l.start)
 }
 
 // String returns the human-readable line
-func (l *Line3) String() string {
+func (l *Line) String() string {
 	return fmt.Sprintf("(%f,%f,%f)-(%f,%f,%f)",
 		l.start[0], l.start[1], l.start[2],
 		l.end[0], l.end[1], l.end[2],
@@ -325,7 +280,7 @@ func (l *Line3) String() string {
 }
 
 // Distance between two lines
-func (li *Line3) Distance(lj Line) (d float64) {
+func (li *Line) Distance(lj *Line) (d float64) {
 	d = math.MaxFloat64
 	if li.Start().Equals(lj.End()) || li.End().Equals(lj.Start()) {
 		return
@@ -347,7 +302,7 @@ func (li *Line3) Distance(lj Line) (d float64) {
 }
 
 // Intersect returns true (and the intersection point) if two lines intersect
-func (li *Line3) Intersect(lj Line) (p Vec3, cross bool) {
+func (li *Line) Intersect(lj *Line) (p Vec3, cross bool) {
 	var pt [4]Vec3
 	d := func(m, n, o, p int) float64 {
 		return (pt[m-1][0]-pt[n-1][0])*(pt[o-1][0]-pt[p-1][0]) +
@@ -376,7 +331,7 @@ func (li *Line3) Intersect(lj Line) (p Vec3, cross bool) {
 
 // Intersects returns a list of segment indices that intersect
 // other segments in the list. Only the higher index is reported.
-func Intersects(segs []Line) (pos []int) {
+func Intersects(segs []*Line) (pos []int) {
 	n := len(segs)
 	for i := 0; i < n-1; i++ {
 		for j := i + 1; j < n; j++ {
@@ -391,7 +346,7 @@ func Intersects(segs []Line) (pos []int) {
 // CheckDistances returns a list of segment indices where the
 // smallest distance of segment to other segments in the list
 // is below a given minimum. Only the higher index is reported.
-func CheckDistances(segs []Line, minD float64) (pos []int) {
+func CheckDistances(segs []*Line, minD float64) (pos []int) {
 	n := len(segs)
 	for i := 0; i < n-1; i++ {
 		for j := i + 1; j < n; j++ {

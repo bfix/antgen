@@ -24,6 +24,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"math/rand"
 	"time"
 
 	"github.com/bfix/antgen/lib"
@@ -35,11 +36,12 @@ func init() {
 
 //----------------------------------------------------------------------
 
-// ModelBend2D is a dipole model where the wings where the joints
+// ModelBend2D is a dipole model where the joints
 // of two segments can be bended (in the XY plane).
 type ModelBend2D struct {
-	ModelDipole
+	lib.ModelDipole
 
+	rnd  *rand.Rand    // randomizer
 	seed int64         // randomizer seed
 	gen  lib.Generator // reference to generator
 	best *lib.Antenna  // antenna with best performance
@@ -57,7 +59,7 @@ func NewModelBend2D(verbose int) (lib.Model, error) {
 }
 
 // Init model
-func (mdl *ModelBend2D) Init(params string, spec *lib.Specification, k float64, gen lib.Generator) (side float64, err error) {
+func (mdl *ModelBend2D) Init(params string, spec *lib.Specification, gen lib.Generator) (side float64, err error) {
 	// no parameters expected
 	if len(params) > 0 {
 		err = errors.New("no parameters expected")
@@ -71,10 +73,10 @@ func (mdl *ModelBend2D) Init(params string, spec *lib.Specification, k float64, 
 	mdl.gen = gen
 
 	// init dipole
-	side, err = mdl.ModelDipole.Init(params, spec, k, gen)
+	side, err = mdl.ModelDipole.Init(params, spec, gen)
 
 	// compute bending angles (min, max, step)
-	mdl.bendMax = lib.BendMax(lib.Cfg.Sim.MinRadius*spec.Source.Lambda(), mdl.segL)
+	mdl.bendMax = lib.BendMax(lib.Cfg.Sim.MinRadius*spec.Source.Lambda(), mdl.SegL)
 	mdl.bendMin = mdl.bendMax * lib.Cfg.Sim.MinBend
 	mdl.bendStep = mdl.bendMax / 3
 
@@ -93,16 +95,16 @@ func (mdl *ModelBend2D) Prepare(seed int64, cb lib.Callback) (ant *lib.Antenna, 
 	mdl.seed = seed
 
 	// generate the initial geometry
-	mdl.nodes = mdl.gen.Nodes(mdl.num, mdl.segL, mdl.rnd)
-	mdl.num = len(mdl.nodes)
+	mdl.Nodes = mdl.gen.Nodes(mdl.Num, mdl.SegL, mdl.rnd)
+	mdl.Num = len(mdl.Nodes)
 	if mdl.best, err = mdl.eval(); err != nil {
 		return
 	}
 	ant = mdl.best
 
 	// track folding into initial geometry
-	mdl.track = lib.Changes(mdl.nodes)
-	mdl.track = append(mdl.track, &lib.Change{Pos: lib.TRK_MARK})
+	mdl.Track = lib.Changes(mdl.Nodes)
+	mdl.Track = append(mdl.Track, &lib.Change{Pos: lib.TRK_MARK})
 
 	cb(mdl.best, -1, "initial geometry")
 	return
@@ -143,7 +145,7 @@ func (mdl *ModelBend2D) optBend(iter int, cmp *lib.Comparator, cb lib.Callback) 
 		}
 		// pick a random position if not set
 		if pos == -1 {
-			pos = mdl.rnd.Intn(mdl.num)
+			pos = mdl.rnd.Intn(mdl.Num)
 		}
 
 		// vary bend angle of node
@@ -152,17 +154,16 @@ func (mdl *ModelBend2D) optBend(iter int, cmp *lib.Comparator, cb lib.Callback) 
 			pos = -1
 			continue
 		}
-		node := mdl.nodes[pos].(*lib.Node2D)
-
+		node := mdl.Nodes[pos]
 		// limit bending to max
-		if math.Abs(node.GetAngle()+dw) > mdl.bendMax {
+		if math.Abs(node.Theta+dw) > mdl.bendMax {
 			pos = -1
 			continue
 		}
 		// check geometry
-		node.AddAngle(dw)
+		node.AddAngles(dw, 0)
 		if !mdl.checkGeometry() {
-			node.AddAngle(-dw)
+			node.AddAngles(-dw, 0)
 			pos = -1
 			continue
 		}
@@ -180,14 +181,17 @@ func (mdl *ModelBend2D) optBend(iter int, cmp *lib.Comparator, cb lib.Callback) 
 		}
 
 		// quit after max number of rounds
-		if tries++; tries > maxTries+mdl.num*lib.Cfg.Sim.MaxRounds {
+		if tries++; tries > maxTries+mdl.Num*lib.Cfg.Sim.MaxRounds {
 			break
 		}
 
 		// check for improved performance
 		if sign, val := cmp.Compare(ant.Perf, mdl.best.Perf); sign == 1 {
 			mdl.best = ant
-			mdl.track = append(mdl.track, &lib.Change{Pos: pos, Angle: dw})
+			mdl.Track = append(mdl.Track, &lib.Change{
+				Pos:   pos,
+				Theta: dw,
+			})
 
 			// render geometry (if applicable)
 			i = 0
@@ -212,7 +216,7 @@ func (mdl *ModelBend2D) optBend(iter int, cmp *lib.Comparator, cb lib.Callback) 
 				tries = 0
 			}
 		} else {
-			node.AddAngle(-dw)
+			node.AddAngles(-dw, 0)
 			pos = -1
 		}
 	}
@@ -223,14 +227,12 @@ func (mdl *ModelBend2D) optBend(iter int, cmp *lib.Comparator, cb lib.Callback) 
 
 // check geometry (bounded to positive x-coordinates)
 func (mdl *ModelBend2D) checkGeometry() (ok bool) {
-	d := mdl.nodes[0].Len()
+	d := mdl.Nodes[0].Length
 	pos := lib.NewVec3(d/2, 0, 0)
 	dir := 0.
-	for _, n := range mdl.nodes {
-		node := n.(*lib.Node2D)
-		length, angle := node.Polar()
-		dir = math.Mod(dir+angle, lib.CircAng)
-		end := pos.Move2D(length, dir)
+	for _, node := range mdl.Nodes {
+		dir = math.Mod(dir+node.Theta, lib.CircAng)
+		end := pos.Move2D(node.Length, dir)
 		if end[0] < d/2 {
 			return
 		}
@@ -242,8 +244,8 @@ func (mdl *ModelBend2D) checkGeometry() (ok bool) {
 
 // evaluate performance of antenna geometry
 func (mdl *ModelBend2D) eval() (ant *lib.Antenna, err error) {
-	ant = lib.BuildAntenna(mdl.kind, mdl.spec, mdl.nodes)
+	ant = lib.BuildAntenna(mdl.Kind, mdl.Spec, mdl.Nodes)
 	// ant.DumpNEC(mdl.spec, nil, "./curr.nec")
-	err = ant.Eval(mdl.spec.Source.Freq, mdl.spec.Wire, mdl.spec.Ground)
+	err = ant.Eval(mdl.Spec.Source.Freq, mdl.Spec.Wire, mdl.Spec.Ground)
 	return
 }

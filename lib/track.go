@@ -28,15 +28,19 @@ const (
 
 type Change struct {
 	Pos   int     `json:"pos"`
-	Angle float64 `json:"angle"`
+	Theta float64 `json:"theta"`
+	Phi   float64 `json:"phi"`
 }
 
-func Changes(nodes []Node) []*Change {
+func Changes(nodes []*Node) []*Change {
 	changes := make([]*Change, 0)
-	for i, n := range nodes {
-		node := n.(*Node2D)
-		if !IsNull(node.angle) {
-			changes = append(changes, &Change{Pos: i, Angle: node.angle})
+	for i, node := range nodes {
+		if !IsNull(node.Theta) || !IsNull(node.Phi) {
+			changes = append(changes, &Change{
+				Pos:   i,
+				Theta: node.Theta,
+				Phi:   node.Phi,
+			})
 		}
 	}
 	return changes
@@ -51,12 +55,12 @@ type TrackList struct {
 	Track  []*Change `json:"track"`
 }
 
-func (tl *TrackList) Nodes() []Node {
+func (tl *TrackList) Nodes() []*Node {
 
 	// build initial geometry
-	nodes := make([]Node, tl.Num)
+	nodes := make([]*Node, tl.Num)
 	for i := range nodes {
-		nodes[i] = NewNode2D(tl.SegL, 0)
+		nodes[i] = NewNode(tl.SegL, 0, 0)
 	}
 
 	// iterate over changes
@@ -65,8 +69,9 @@ func (tl *TrackList) Nodes() []Node {
 			continue
 		}
 		// apply change
-		n := nodes[chg.Pos].(*Node2D)
-		n.angle += chg.Angle
+		n := nodes[chg.Pos]
+		n.Theta += chg.Theta
+		n.Phi += chg.Phi
 	}
 	return nodes
 }

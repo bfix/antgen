@@ -36,7 +36,7 @@ import (
 )
 
 // Plot data from database
-func plotToFile(db *lib.Database, in string, args []string) {
+func plotToFile(db *lib.Database, _ string, args []string) {
 	var (
 		target string
 		sets   string

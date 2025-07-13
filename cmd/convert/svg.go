@@ -56,7 +56,7 @@ func convert2SVG(fGeo, fOut string, geo *lib.Geometry, spec *lib.Specification, 
 	}
 
 	// build geometry:
-	// (1) dipole wing as a "line" (sequence of 2D points)
+	// (1) dipole leg as a "line" (sequence of 2D points)
 	// (2) "holes" (every five segments or if curvature is above limit)
 	var line, holes []lib.Vec3
 	pos := lib.NewVec3(0, 0, 0)
@@ -67,12 +67,12 @@ func convert2SVG(fGeo, fOut string, geo *lib.Geometry, spec *lib.Specification, 
 	dir := 0.
 	bb := lib.NewBoundingBox()
 	bb.Include(pos)
-	for _, angle := range geo.Bends {
-		dir += angle
-		end := pos.Move2D(geo.SegL, dir)
+	for _, node := range geo.Nodes {
+		dir += node.Theta
+		end := pos.Move2D(node.Length, dir)
 		line = append(line, end)
 		hStep++
-		deviation := float64(hStep) * geo.SegL / end.Sub(lastHole).Length()
+		deviation := float64(hStep) * node.Length / end.Sub(lastHole).Length()
 		if hStep == 5 || deviation > 1.02 {
 			hStep = 0
 			holes = append(holes, end)
@@ -98,7 +98,7 @@ func convert2SVG(fGeo, fOut string, geo *lib.Geometry, spec *lib.Specification, 
 	style := svg.String(fmt.Sprintf(
 		"stroke:#000000;stroke-opacity:1;stroke-width:%.2f;stroke-dasharray:none",
 		1000*spec.Wire.Diameter))
-	wing := svg.Path().
+	leg := svg.Path().
 		Style(style).
 		Fill("none").
 		D(path)
@@ -119,7 +119,7 @@ func convert2SVG(fGeo, fOut string, geo *lib.Geometry, spec *lib.Specification, 
 	graph.AppendChildren(
 		svg.Title(title),
 		svg.Desc(desc...),
-		wing,
+		leg,
 	)
 	graph.AppendChildren(circles...)
 

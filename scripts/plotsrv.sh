@@ -22,5 +22,8 @@
 
 BIN=${ANTGEN_BIN:-$(pwd)}
 OUT=${ANTGEN_OUT:-${BIN}/out}
+if [ -n "$1" ]; then
+    OUT=$1
+fi
 
 ${BIN}/tabula -db ${OUT}/results.db plot-srv

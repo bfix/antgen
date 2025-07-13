@@ -9,7 +9,7 @@
         "ground": {
             "height": 0,
             "mode": 0,
-            "type": 0,
+            "type": -1,
             "nradl": 0,
             "epse": 0,
             "sig": 0
@@ -22,6 +22,10 @@
             "power": 1,
             "freq": 435000000,
             "span": 5000000
+        },
+        "feedpt": {
+            "gap": 0,
+            "extension": 0
         }
     },
     "simulation": {
@@ -38,6 +42,20 @@
         "segMinLambda": 0.002,
         "segMinWire": 4,
         "minRadius": 0.02
+    },
+    "material": {
+        "Cu": {
+            "conductivity": 5.96e7,
+            "inductance": 1.32e-6
+        },
+        "CuL": {
+            "conductivity": 5.96e7,
+            "inductance": 1.1e-7
+        },
+        "Al": {
+            "conductivity": 3.5e7,
+            "inductance": 2.5e-8
+        }
     },
     "plugins": {},
     "render": {
